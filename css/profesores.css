@@ -59,7 +59,6 @@ body{
 .menu .iconos_menu{
     height: 100%;
     width: 100%;
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,7 +86,73 @@ body{
     width: 60%;
     height: 100%;
     border-radius: 15px;
+    display: flex;
+    flex-direction: column;
 }
+
+.titulo{
+    display: flex;
+    padding: 10px;
+    height: 10%;
+    background-color: #655B45;
+}
+
+.alumnos{
+    padding: 10px;
+    height: 10%;
+    background-color: #a38d5d;
+    display: inline;
+    flex-direction: row;
+    justify-content: start;
+    text-align: center;
+    gap: 15px;
+}
+
+.gestion{
+    background-color: white;
+    width: 25%;
+    border: 0;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.gestion_icono{
+    width: 20%;
+    background-color: #276b8d;
+    border: 0;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gestion_titulo{
+    width: 80%;
+    background-color: aqua;
+    border: 0;
+    border-radius: 30px;
+}
+
+
+
+.cursos{
+    padding: 10px;
+    height: 10%;
+    background-color: #466545;
+}
+
+.proyectos{
+    padding: 10px;
+    height: 70%;
+    background-color: #276b8d;
+}
+
+
+
+
+
+
 
 .user_info{
     background-color: #D9D9D9;
