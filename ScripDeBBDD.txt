@@ -1,0 +1,70 @@
+CREATE DATABASE IF NOT EXISTS proyecto_escuela;
+USE proyecto_escuela;
+
+-- Tabla Profesor
+CREATE TABLE Profesor (
+    Id_profesor INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    Id_Proyecto INT
+);
+
+-- Tabla Clase
+CREATE TABLE Clase (
+    Id_clase INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Id_Profesor INT,
+    FOREIGN KEY (Id_Profesor) REFERENCES Profesor(Id_profesor)
+);
+
+-- Tabla Alumnos
+CREATE TABLE Alumnos (
+    Id_alumno INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    ImagenPerfil VARCHAR(255),
+    Id_clase INT,
+    FOREIGN KEY (Id_clase) REFERENCES Clase(Id_clase)
+);
+
+-- Tabla Proyecto
+CREATE TABLE Proyecto (
+    Id_Proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Fecha DATE NOT NULL
+);
+
+-- Tabla Alumnos_Proyecto (relación muchos a muchos entre Alumnos y Proyecto)
+CREATE TABLE Alumnos_Proyecto (
+    Id_Alumnos_Proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Alumnos INT,
+    Id_Proyecto INT,
+    FOREIGN KEY (Id_Alumnos) REFERENCES Alumnos(Id_alumno),
+    FOREIGN KEY (Id_Proyecto) REFERENCES Proyecto(Id_Proyecto)
+);
+
+-- Tabla Actividad
+CREATE TABLE Actividad (
+    Id_Actividad INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Id_Proyecto INT,
+    FOREIGN KEY (Id_Proyecto) REFERENCES Proyecto(Id_Proyecto)
+);
+
+-- Tabla Item
+CREATE TABLE Item (
+    Id_Item INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Porcentaje FLOAT NOT NULL,
+    Id_proyecto INT,
+    FOREIGN KEY (Id_proyecto) REFERENCES Proyecto(Id_Proyecto)
+);
+
+-- Tabla Item_Actividad (relación muchos a muchos entre Actividad y Item)
+CREATE TABLE Item_Actividad (
+    Id_Item_Actividad INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Actividad INT,
+    Id_Item INT,
+    FOREIGN KEY (Id_Actividad) REFERENCES Actividad(Id_Actividad),
+    FOREIGN KEY (Id_Item) REFERENCES Item(Id_Item)
+);
