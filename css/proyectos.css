@@ -99,93 +99,6 @@ body{
 
 
 
-/* ---------- Alumnos ---------- */
-
-.main h3{
-    margin: 0;
-}
-
-.alumnos {
-    font-size: 14px;
-    width: 96%; /* O ajusta el tamaño según necesites */
-    padding: 10px;
-    height: 15%;
-    display: flex;
-    flex-direction: row; /* Cambia la dirección del flex a horizontal */
-    gap: 15px;
-    overflow-x: auto; /* Habilita el scroll horizontal */
-    overflow-y: hidden; /* Deshabilita el scroll vertical */
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
-}
-
-.alumnos::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari y Opera */
-}
-
-.alumnos h3{
-    margin: 0;
-}
-
-.cuerpo{
-    margin: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
-
-.gestion{
-    background-color: white;
-    width: 25%;
-    height: 45px;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 5px;
-    box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.463);
-}
-
-.fondo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #D9D9D9;
-    width: 90px;
-    height: 35px;
-    border-radius: 30px;
-}
-
-.gestion_icono{
-    width: 25%;
-    height: 100%;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gestion_icono img{
-    width: 25px;
-    height: px;
-}
-
-.gestion_titulo{
-    width: 75%;
-    margin-left: 5px;
-    border: 0;
-    border-radius: 30px;
-}
-
-
-.cursos{
-    padding: 10px;
-    height: 15%;
-}
-
 
 /* ---------- Proyectos ---------- */
 
@@ -193,7 +106,7 @@ body{
     position: relative;
     padding: 30px 0 0 0 ;
     margin: 0;
-    height: 70%;
+    height: 100%;
     width: 100%;
     display: grid;
     gap: 0.5px;
@@ -232,11 +145,6 @@ body{
     padding: 0 5px;
 }
 
-.gestion-proyecto h3{
-    position: relative;
-}
-
-
 .fondo-proyecto{
     display: flex;
     justify-content: center;
@@ -247,28 +155,17 @@ body{
     border-radius: 30px;
 }
 
-.gestion_icono-proyecto{
-    width: 25%;
-    height: 100%;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .gestion_titulo-proyecto{
-    width: 75%;
-    margin-left: 5px;
-    border: 0;
-    border-radius: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 
 
 
 /* ---------- Menu derecha ---------- */
-.user_info{
+.proyecto_info{
     background-color: #D9D9D9;
     width: 30%;
     height: 100%;
@@ -277,36 +174,23 @@ body{
     flex-direction: column;
 }
 
-.setings{
-    width: 100%;
-    height: 7%;
+.proyecto_info h3{
+    margin: 10px;
+}
+
+.descripcion{
+    margin: 0 20px;
+}
+
+
+.back{
+    background-color: #ffffff;
+    width: 80%;
+    height: 100%;
     display: flex;
-    justify-content: right;
-}
-
-.setings img{
-    margin: 7px;
-    width: 8%;
-    height: 60%;
-}
-
-.user{
-    width: 100%;
-    height: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.user img{
-    width: 80px;
-    height: 80px;
-    margin-top: 5px;
-}
-
-.user h4{
-    margin: 0;
-    padding: 0;
+    justify-content: center;
+    align-items: baseline;
+    border-radius: 15px;
 }
 
 .stats{
@@ -315,74 +199,13 @@ body{
     display: flex;
     justify-content: center;
     padding: 5px;
-}
-
-.back{
-    background-color: #ffffff;
-    width: 80%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    border-radius: 15px;
+    align-items: baseline;
 }
 
 .stats img{
     border-radius: 10px;
     width: 70%;
     height: 100%;
+    align-items: baseline;
 }
 
-
-.proyecto-progreso{
-    position: relative;
-    padding: 30px 0 0 0 ;
-    margin: 0;
-    height: 70%;
-    width: 100%;
-    display: grid;
-    gap: 0.5px;
-    grid-template-columns: repeat(1, 1fr);
-    overflow: scroll;
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
-}
-
-.proyecto-progreso::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari y Opera */
-}
-
-.proyecto-progreso h3{
-    margin: 10px;
-    position: absolute;
-}
-
-.proyectos-progreso{
-    margin: 10px;
-    width: 90%;
-    height: 100px;
-    border-radius: 15px;
-    background-color: rgb(144, 110, 51);
-}
-
-.gestion-proyecto{
-    width: 100%;
-    height: 45px;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    padding: 0 5px;
-}
-
-.gestion-proyecto h3{
-    position: relative;
-}
-
-.gestion_titulo-progreso{
-    width: 100%;
-    margin-left: 5px;
-    border: 0;
-    border-radius: 30px;
-}
