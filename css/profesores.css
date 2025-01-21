@@ -221,7 +221,6 @@ body{
 }
 
 .gestion-proyecto h3{
-    
     position: relative;
 }
 
@@ -322,9 +321,56 @@ body{
 }
 
 
-
-.proyectos-subMenu{
-    background-color: #c02222;
+.proyecto-progreso{
+    position: relative;
+    padding: 30px 0 0 0 ;
+    margin: 0;
+    height: 70%;
     width: 100%;
-    height: 45%;
+    display: grid;
+    gap: 0.5px;
+    grid-template-columns: repeat(1, 1fr);
+    overflow: scroll;
+    scrollbar-width: none; /* Para Firefox */
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+}
+
+.proyecto-progreso::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari y Opera */
+}
+
+.proyecto-progreso h3{
+    margin: 10px;
+    position: absolute;
+}
+
+.proyectos-progreso{
+    margin: 10px;
+    width: 90%;
+    height: 100px;
+    border-radius: 15px;
+    background-color: rgb(144, 110, 51);
+}
+
+.gestion-proyecto{
+    width: 100%;
+    height: 45px;
+    border: 0;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.gestion-proyecto h3{
+    position: relative;
+}
+
+.gestion_titulo-progreso{
+    width: 100%;
+    margin-left: 5px;
+    border: 0;
+    border-radius: 30px;
 }
