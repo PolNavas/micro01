@@ -1,0 +1,75 @@
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS proyecto_escuela;
+USE proyecto_escuela;
+
+-- Tabla Usuarios
+-- Los usuarios tienen un rol que puede ser 'Profesor' o 'Alumno'
+CREATE TABLE usuarios (
+    Id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    ImagenPerfil VARCHAR(255),
+    Rol ENUM('Profesor', 'Alumno') NOT NULL,
+    Id_Proyecto INT,
+    Contraseña VARCHAR(255)
+);
+
+-- Tabla Proyectos
+-- Se incluyen las columnas Fecha_Inicio, Fecha_Entrega y Descripcion
+CREATE TABLE proyecto (
+    Id_Proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Descripcion TEXT,
+    Fecha DATE NOT NULL,
+    Fecha_Entrega DATE
+);
+
+-- Tabla Actividades
+-- Relaciona actividades con proyectos
+CREATE TABLE actividad (
+    Id_Actividad INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Id_Proyecto INT NOT NULL,
+    FOREIGN KEY (Id_Proyecto) REFERENCES proyecto(Id_Proyecto)
+);
+
+-- Tabla Items
+-- Los ítems están relacionados con proyectos
+CREATE TABLE item (
+    Id_Item INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Porcentaje FLOAT NOT NULL,
+    Id_Proyecto INT,
+    FOREIGN KEY (Id_Proyecto) REFERENCES proyecto(Id_Proyecto)
+);
+
+-- Tabla Item_Actividad
+-- Relación muchos a muchos entre actividades e ítems
+CREATE TABLE item_actividad (
+    Id_Item_Actividad INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Actividad INT,
+    Id_Item INT,
+    FOREIGN KEY (Id_Actividad) REFERENCES actividad(Id_Actividad),
+    FOREIGN KEY (Id_Item) REFERENCES item(Id_Item)
+);
+
+-- Tabla Notas
+-- Las notas están relacionadas con alumnos e ítems
+CREATE TABLE notas (
+    Id_Nota INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Alumno INT NOT NULL,
+    Id_Item INT NOT NULL,
+    Nota FLOAT NOT NULL,
+    FOREIGN KEY (Id_Alumno) REFERENCES usuarios(Id_usuario),
+    FOREIGN KEY (Id_Item) REFERENCES item(Id_Item)
+);
+
+-- Tabla Alumnos_Proyecto
+-- Relación muchos a muchos entre alumnos y proyectos
+CREATE TABLE alumnos_proyecto (
+    Id_Alumnos_Proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Alumno INT NOT NULL,
+    Id_Proyecto INT NOT NULL,
+    FOREIGN KEY (Id_Alumno) REFERENCES usuarios(Id_usuario),
+    FOREIGN KEY (Id_Proyecto) REFERENCES proyecto(Id_Proyecto)
+);
