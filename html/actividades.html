@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades</title>
+    <link rel="stylesheet" href="../css/actividades.css">
+</head>
+
+<body>
+    <div class="fondo_madera">
+        <div class="mid">
+            <div class="menu">
+                <div class="logo">
+                    <img src="../Img/logo_pequeño.png" alt="logo">
+                </div>
+                <div class="iconos_menu">
+                    <div class="icono"><a href="#"><img src="../Img/icono_menu_user.png" alt="icono-user"></div></a>
+                    <div class="icono"><a href="#"><img src="../Img/clipboard.png" alt="clipboard"></div></a>
+                    <div class="icono"><a href="#"><img src="../Img/calendario.png" alt="calendario"></div></a>
+                </div>
+            </div>
+            <div class="main">
+                <div class="titulo"><h1>Actividad - 1</h1></div>
+                <div class="actividad">
+                    <div class="actividades">
+                        <div>
+                            <h4>Fecha de inicio:</h4><p></p>
+                        </div>
+                        <div>
+                            <h4>Fecha de finalización:</h4><p></p>
+                        </div>
+                        <div>
+                            <h4>Descripcion:</h4>
+                            <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nihil, facilis hic accusantium esse possimus maiores necessitatibus deserunt nisi! Beatae.</p>
+                        </div>
+                        <input type="file" name="actividad_final" id="actividad_final">
+                    </div>
+                </div>
+            </div>
+            <!-- Menu lateral derecha -->
+            <div class="actividad_info">
+                <div class="stats"><div class="back"><img src="../Img/stats.png" alt="stats"></div></div>
+
+                <!-- Modal Stats -->
+                <div id="modal" class="modal">
+                    <div class="modal_contenido">
+                        <span class="cerrar">&times;</span>
+                        <h3>Estadísticas del Proyecto</h3>
+                        <p>GRAFICO</p>
+                        <canvas id="grafico"></canvas>
+                    </div>
+                </div>
+                <script>
+                    document.querySelector('.stats').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'flex';
+                    });
+
+                    document.querySelector('.cerrar').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'none';
+                    });
+
+                    // Gráfico con Chart.js
+                    const ctx = document.getElementById('grafico').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Tarea 1', 'Tarea 2', 'Tarea 3'],
+                            datasets: [{
+                                label: 'Progreso (%)',
+                                data: [80, 50, 30],
+                                backgroundColor: ['#7C8F53', '#D9D9D9', '#F4C430']
+                            }]
+                        }
+                    });
+                </script>
+
+                
+                <!-- Barra de progreso  -->
+                <div class="progreso">
+                    <h4>Progreso:</h4>
+                    <div class="control_progreso">
+                        <input type="range" id="slider_progreso" min="0" max="100" value="0">
+                        <p id="valor_progreso">0%</p>
+                    </div>
+                </div>
+            
+                <script>
+                    // Elementos del DOM
+                    const sliderProgreso = document.getElementById('slider_progreso');
+                    const valorProgreso = document.getElementById('valor_progreso');
+            
+                    // Función para actualizar el texto y guardar en localStorage
+                    function actualizarProgreso() {
+                        const valor = sliderProgreso.value;
+                        valorProgreso.textContent = `${valor}%`;
+                        localStorage.setItem('progreso', valor); // Guardar en localStorage
+                    }
+            
+                    // Cargar el valor guardado en localStorage al iniciar
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const progresoGuardado = localStorage.getItem('progreso');
+                        if (progresoGuardado !== null) {
+                            sliderProgreso.value = progresoGuardado;
+                            valorProgreso.textContent = `${progresoGuardado}%`;
+                        }
+                    });
+            
+                    // Evento para actualizar el progreso cuando el slider cambie
+                    sliderProgreso.addEventListener('input', actualizarProgreso);
+                </script>
+                
+                <!-- Tareas pendientes -->
+    <div class="tareas_pendientes">
+        <h4>Tareas Pendientes:</h4>
+        <input type="text" id="nueva_tarea" placeholder="Nueva tarea...">
+        <button id="agregar_tarea">Añadir</button>
+        <ul id="lista_tareas">
+            <!-- Las tareas se añadirán dinámicamente aquí -->
+        </ul>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const inputTarea = document.getElementById('nueva_tarea');
+        const botonAgregar = document.getElementById('agregar_tarea');
+        const listaTareas = document.getElementById('lista_tareas');
+
+        // Cargar tareas desde localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const tareasGuardadas = JSON.parse(localStorage.getItem('tareas')) || [];
+            tareasGuardadas.forEach(tarea => {
+                agregarTarea(tarea.texto, tarea.completada);
+            });
+        });
+
+        // Añadir nueva tarea
+        botonAgregar.addEventListener('click', () => {
+            const textoTarea = inputTarea.value.trim();
+            if (textoTarea) {
+                agregarTarea(textoTarea);
+                guardarTareas();
+                inputTarea.value = '';
+            }
+        });
+
+        // Función para añadir tarea a la lista
+        function agregarTarea(texto, completada = false) {
+            const li = document.createElement('li');
+            if (completada) li.classList.add('completed');
+
+            li.innerHTML = `
+                <span>${texto}</span>
+                <button class="completar">✔</button>
+                <button class="eliminar">✖</button>
+            `;
+
+            // Marcar como completada
+            li.querySelector('.completar').addEventListener('click', () => {
+                li.classList.toggle('completed');
+                guardarTareas();
+            });
+
+            // Eliminar tarea
+            li.querySelector('.eliminar').addEventListener('click', () => {
+                li.remove();
+                guardarTareas();
+            });
+
+            listaTareas.appendChild(li);
+        }
+
+        // Guardar tareas en localStorage
+        function guardarTareas() {
+            const tareas = [];
+            listaTareas.querySelectorAll('li').forEach(li => {
+                tareas.push({
+                    texto: li.querySelector('span').textContent,
+                    completada: li.classList.contains('completed')
+                });
+            });
+            localStorage.setItem('tareas', JSON.stringify(tareas));
+        }
+    </script>
+                
+
+            </div>
+        </div>
+    </div>
+    <script src="../js/modal.js"></script>
+</body>
+
+</html>

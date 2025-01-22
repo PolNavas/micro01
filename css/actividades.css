@@ -1,0 +1,271 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fondo_madera{
+    background: url(../Img/fondo_madera.jpeg) center center no-repeat;
+    background-size: cover;
+    width: 85%;
+    height: 92vh;
+    border-radius: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px 9px rgba(0, 0, 0, 0.463);
+}
+
+.mid{
+    background-color: #EDE7E0;
+    width: 90%;
+    height: 85%;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px 9px rgba(0, 0, 0, 0.333);
+}
+/* ---------- Menu izquierda ---------- */
+.menu{
+    background-color: #D9D9D9;
+    width: 10%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .logo{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.logo img{
+    width: 85%;
+    height: 80%;
+}
+
+.menu .iconos_menu{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.iconos_menu .icono{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #655B45;
+    border-radius: 50px;
+}
+
+.icono img{
+    width: 35px;
+    height: 35px;
+}
+
+.main{
+    width: 60%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+/* ---------- Titulo ---------- */
+.titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 10%;
+}
+
+
+
+
+/* ---------- Actividades ---------- */
+
+.actividad{
+    padding: 30px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.actividades h3{
+    margin: 10px;
+}
+
+.actividades{
+    width: 90%;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #7C8F53;
+    display: flex;
+    flex-direction: column;
+}
+
+.actividades h4, .desc, input{
+    margin: 20px 0 0 20px;
+}
+
+.desc{
+    width: 90%;
+    margin-top: 5px;
+}
+
+.actividades input{
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #D9D9D9;
+}
+
+
+/* ---------- Menu derecha ---------- */
+.actividad_info {
+    background-color: #D9D9D9;
+    width: 30%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c0c0c0 transparent;
+}
+
+.actividad_info::-webkit-scrollbar {
+    width: 5px; /* Ancho de la barra de desplazamiento */
+}
+
+.actividad_info::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0; /* Color de la "thumb" (parte desplazable) */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.actividad_info::-webkit-scrollbar-track {
+    background: transparent; /* Fondo de la barra de desplazamiento */
+}
+
+
+.back{
+    background-color: #ffffff;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    border-radius: 15px;
+}
+
+.stats{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    align-items: baseline;
+    cursor: pointer;
+    /* margin-top: 10px; */
+}
+
+.stats img{
+    border-radius: 10px;
+    width: 70%;
+    height: 100%;
+    align-items: baseline;
+}
+
+/* Barra de progreso */
+.progreso {
+    margin: 20px 0 0px 20px;
+}
+.progreso h4{
+    margin: 0;
+}
+
+.control_progreso {
+    display: flex;
+    align-items: center;
+}
+
+#slider_progreso {
+    width: 100%;
+}
+
+
+/* Modal Stats */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_contenido {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 50%;
+    position: relative;
+    text-align: center;
+}
+
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Tareas pendientes */
+.tareas_pendientes {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    margin: 20px auto;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+li.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+button {
+    margin-left: 10px;
+}
