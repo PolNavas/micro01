@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+</head>
+<body>
+    <h1>Perfil de Usuario</h1>
+    <div id="userProfile">
+        <p><strong>Nombre:</strong> <span id="username"></span></p>
+        <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+        <p><strong>Rol:</strong> <span id="rol"></span></p>
+    </div>
+
+    <script>
+        // Recuperar los datos del usuario desde el localStorage
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            // Mostrar los datos en la página
+            document.getElementById('username').textContent = user.Nombre;
+            document.getElementById('apellido').textContent = user.Apellido;
+            document.getElementById('rol').textContent = user.Rol;
+        } else {
+            // Si no hay datos del usuario, redirigir al login
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
