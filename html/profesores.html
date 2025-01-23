@@ -113,6 +113,33 @@
                 </a>
                 </div>
                 <div class="stats"><a href=""><div class="back"><img src="../Img/stats.png" alt=""></div></a></div>
+                <!-- Modal Stats -->
+                <div id="modal" class="modal">
+                    <div class="modal_contenido">
+                        <span class="cerrar">&times;</span>
+                        <h3>Estadísticas del Proyecto</h3>
+                        <p>GRAFICO</p>
+                        <canvas id="grafico"></canvas>
+                    </div>
+                </div>
+                <script>
+                    document.querySelector('.stats').addEventListener('click', (e) => {
+                        e.preventDefault(); // Prevenir comportamiento por defecto
+                        document.getElementById('modal').style.display = 'flex';
+                    });
+
+                    document.querySelector('.cerrar').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'none';
+                    });
+
+                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
+                    document.getElementById('modal').addEventListener('click', (e) => {
+                        if (e.target === document.getElementById('modal')) {
+                            document.getElementById('modal').style.display = 'none';
+                        }
+                    });
+                </script>
+
                 <div class="proyecto-progreso">
                     <h3>Progreso:</h3>
                     <div class="proyectos-progreso">
