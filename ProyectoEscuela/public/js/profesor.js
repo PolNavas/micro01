@@ -11,20 +11,22 @@ if (user) {
 // Función para generar el contenido de un proyecto
 function renderProyecto(proyecto) {
     const proyectoElement = document.createElement('div');
-    proyectoElement.classList.add('gestion-proyecto');
+    proyectoElement.classList.add('proyectos');
 
     proyectoElement.innerHTML = `
-        <div class="gestion_icono-proyecyo">
-            <div class="fondo-proyecto">
-                <img src="../Img/programacion.png" alt="icono-group">
+            <div class="gestion-proyecto">
+                <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
+                <div class="gestion_titulo-proyecto"><h3>${proyecto.Nombre}</h3></div>
             </div>
-        </div>
-        <div class="gestion_titulo-proyecto">
-            <h3>${proyecto.Nombre}</h3>
-        </div>
-        <p id="Descripcion">${proyecto.Descripcion || 'Sin descripción disponible'}</p>
-        <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
-        <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
+
+            <p id="Descripcion" >${proyecto.Descripcion || 'Sin descripción disponible'}</p>
+            <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
+            <div class="info_boton">
+                <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
+                <a href="">Ver proyecto</a>
+            </div>
+
+
     `;
     return proyectoElement;
 }
