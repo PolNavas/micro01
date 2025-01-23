@@ -82,7 +82,7 @@ body{
 }
 
 .main{
-    background-color: rgba(0, 255, 255, 0.336);
+    /* background-color: rgba(0, 255, 255, 0.336); */
     width: 60%;
     height: 100%;
     border-radius: 15px;
@@ -106,168 +106,38 @@ body{
 }
 
 form input{
+    margin: 10px 0;
     border-radius: 10px;
-    /* border: 1px solid black; */
-}
-
-
-
-
-/* ---------- Alumnos ---------- */
-
-.alumnos{
-    font-size: 14px;
-    width: 97.1%;
+    border: 1px solid black;
+    height: 20px;
     padding: 10px;
-    height: 15%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
-.alumnos h3{
+#imagen{
     margin: 0;
+    border-radius: 0;
+    border: none;
 }
 
-.cuerpo{
-    margin: 0;
-    width: 100%;
+form label{
+    margin-left: 10px;
+}
+
+.boton{
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    justify-content: right;
+    align-items: right;
+
 }
 
-.gestion{
-    background-color: white;
-    width: 25%;
-    height: 45px;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 5px;
-    box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.463);
-}
-
-.fondo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #D9D9D9;
-    width: 90px;
-    height: 35px;
-    border-radius: 30px;
-}
-
-.gestion_icono{
-    width: 25%;
-    height: 100%;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gestion_icono img{
-    width: 25px;
-    height: px;
-}
-
-.gestion_titulo{
-    width: 75%;
-    margin-left: 5px;
-    border: 0;
-    border-radius: 30px;
-}
-
-
-.cursos{
-    padding: 10px;
-    height: 15%;
-}
-
-
-
-/* ---------- Proyectos ---------- */
-
-.proyecto{
-    position: relative;
-    padding: 30px 0 0 0 ;
-    margin: 0;
-    height: 70%;
-    width: 100%;
-    display: grid;
-    gap: 0.5px;
-    grid-template-columns: repeat(2, 1fr);
-    overflow: scroll;
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
-}
-
-.proyecto::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari y Opera */
-}
-
-.proyecto h3{
-    margin: 10px;
-    position: absolute;
-}
-
-.proyectos{
-    margin: 10px;
-    width: 90%;
-    height: 150px;
+form button{
+    width: 15%;
+    height: 150%;
+    background-color: #655B45;
+    color: #D9D9D9;
+    border: 2px solid black;
     border-radius: 15px;
-    background-color: rgb(144, 110, 51);
 }
-
-.gestion-proyecto{
-    width: 60%;
-    height: 45px;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    padding: 0 5px;
-}
-
-.gestion-proyecto h3{
-    position: relative;
-}
-
-
-.fondo-proyecto{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #D9D9D9;
-    width: 150%;
-    height: 35px;
-    border-radius: 30px;
-}
-
-.gestion_icono-proyecto{
-    width: 25%;
-    height: 100%;
-    border: 0;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gestion_titulo-proyecto{
-    width: 75%;
-    margin-left: 5px;
-    border: 0;
-    border-radius: 30px;
-}
-
-
 
 
 /* ---------- Menu derecha ---------- */
