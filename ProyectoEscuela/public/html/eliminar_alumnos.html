@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alumnos</title>
-    <link rel="stylesheet" href="../css/alumnos.css">
+    <title>Eliminar Alumnos</title>
+    <link rel="stylesheet" href="../css/eliminar_alumnos.css">
 </head>
 
 <body>
@@ -22,31 +22,54 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Escritorio Virtual</h1></div>
-                <h3>Modulos:</h3>
-                <div class="alumnos">
-                    <div class="cuerpo">
-                        <div class="gestion">
-                            <div class="gestion_icono"><div class="fondo"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo"><h3>Todo</h3></div>
+                <div class="titulo"><h1>Eliminar Alumnos</h1></div>
+                <div class="centro-form">
+                    <form action="">
+                        <select name="listaAlumnos" id="listaAlumnos">
+                            <option value="1">Juan</option>
+                            <option value="2">Samuel</option>
+                        </select>
+                        <div class="boton">
+                            <button type="submit">Eliminar</button>
                         </div>
-                    </div>
-                </div>
-                <div class="proyecto">
-                    <h3>Proyectos:</h3>
-                    <div id="proyectosContainer" class="proyectos">
-                            
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="user_info">
-                <div class="setings"><a href="#"><img src="../Img/settings.png" alt="ajustes"></a></div>
+                <div class="setings"><a href=""><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user"><a href="">
                     <img src="../Img/profile.png" alt="perfil">
-                    <h4><span id="username"></span></h4>
+                    <h4>Username</h4>
                 </a>
                 </div>
-                <div class="stats"><div class="back"><img src="../Img/stats.png" alt=""></div></div>
+                <div class="stats"><a href=""><div class="back"><img src="../Img/stats.png" alt=""></div></a></div>
+                <!-- Modal Stats -->
+                <div id="modal" class="modal">
+                    <div class="modal_contenido">
+                        <span class="cerrar">&times;</span>
+                        <h3>Estadísticas del Proyecto</h3>
+                        <p>GRAFICO</p>
+                        <canvas id="grafico"></canvas>
+                    </div>
+                </div>
+                <script>
+                    document.querySelector('.stats').addEventListener('click', (e) => {
+                        e.preventDefault(); // Prevenir comportamiento por defecto
+                        document.getElementById('modal').style.display = 'flex';
+                    });
+
+                    document.querySelector('.cerrar').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'none';
+                    });
+
+                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
+                    document.getElementById('modal').addEventListener('click', (e) => {
+                        if (e.target === document.getElementById('modal')) {
+                            document.getElementById('modal').style.display = 'none';
+                        }
+                    });
+                </script>
+
                 <div class="proyecto-progreso">
                     <h3>Progreso:</h3>
                     <div class="proyectos-progreso">
@@ -71,7 +94,6 @@
             </div>
         </div>
     </div>
-    <script src="../js/alumnos.js"></script>
 </body>
 
 </html>
