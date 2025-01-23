@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Alumnos</title>
-    <link rel="stylesheet" href="../css/crear_alumnos.css">
+    <title>Eliminar Alumnos</title>
+    <link rel="stylesheet" href="../css/eliminar_alumnos.css">
 </head>
 
 <body>
@@ -22,20 +22,14 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Crear Alumnos</h1></div>
-                <form action="">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre">
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos">
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="text" name="contraseña" id="contraseña">
-                    <label for="imagen">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen">
-                    <div class="boton">
-                        <button type="submit">Enviar</button>
-                    </div>
-                </form>
+                <div class="titulo"><h1>Eliminar Alumnos</h1></div>
+                <select name="listaAlumnos" id="listaAlumnos">
+                    <option value="1">Juan</option>
+                    <option value="2">Samuel</option>
+                </select>
+                <div class="boton">
+                    <button type="submit">Eliminar</button>
+                </div>
             </div>
             <div class="user_info">
                 <div class="setings"><a href=""><img src="../Img/settings.png" alt="ajustes"></a></div>
