@@ -16,58 +16,75 @@
                     <img src="../Img/logo_pequeño.png" alt="logo">
                 </div>
                 <div class="iconos_menu">
-                    <div class="icono"><a href=""><img src="../Img/icono_menu_user.png" alt="icono-user"></div></a>
-                    <div class="icono"><a href=""><img src="../Img/clipboard.png" alt="clipboard"></div></a>
+                    <div class="icono"><a href="perfil.html"><img src="../Img/icono_menu_user.png" alt="icono-user"></div></a>
+                    <div class="icono"><a href="alumno.html"><img src="../Img/clipboard.png" alt="clipboard"></div></a>
                     <div class="icono"><a href=""><img src="../Img/calendario.png" alt="calendario"></div></a>
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Escritorio Virtual</h1></div>
+                <div class="titulo">
+                    <h1>Escritorio Virtual</h1>
+                </div>
                 <h3>Modulos:</h3>
                 <div class="alumnos">
                     <div class="cuerpo">
                         <div class="gestion">
-                            <div class="gestion_icono"><div class="fondo"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo"><h3>Todo</h3></div>
+                            <div class="gestion_icono">
+                                <div class="fondo"><img src="../Img/programacion.png" alt="icono-group"></div>
+                            </div>
+                            <div class="gestion_titulo">
+                                <h3>Todo</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="proyecto">
                     <h3>Proyectos:</h3>
                     <div id="proyectosContainer" class="proyectos">
-                            
+
                     </div>
                 </div>
             </div>
             <div class="user_info">
-                <div class="setings"><a href="#"><img src="../Img/settings.png" alt="ajustes"></a></div>
+                <div class="setings"><a href="#"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user"><a href="">
-                    <img src="../Img/profile.png" alt="perfil">
-                    <h4><span id="username"></span></h4>
-                </a>
+                        <img src="../Img/profile.png" alt="perfil">
+                        <h4><span id="username"></span></h4>
+                    </a>
                 </div>
-                <div class="stats"><div class="back"><img src="../Img/stats.png" alt=""></div></div>
-                <div class="proyecto-progreso">
-                    <h3>Progreso:</h3>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>Programacion - Act2</h3></div>
-                        </div>
-                    </div>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>Sistemas - Act1</h3></div>
-                        </div>
-                    </div>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>BBDD - Act1.2</h3></div>
-                        </div>
+                <div class="stats">
+                    <div class="back"><img src="../Img/stats.png" alt=""></div>
+                </div>
+                <!-- Modal Stats -->
+                <div id="modal" class="modal">
+                    <div class="modal_contenido">
+                        <span class="cerrar">&times;</span>
+                        <h3>Estadísticas del Proyecto</h3>
+                        <p>GRAFICO</p>
+                        <canvas id="grafico"></canvas>
                     </div>
                 </div>
+                <script>
+                    document.querySelector('.stats').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'flex';
+                    });
+                    document.querySelector('.cerrar').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'none';
+                    });
+                    // Gráfico con Chart.js
+                    const ctx = document.getElementById('grafico').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Tarea 1', 'Tarea 2', 'Tarea 3'],
+                            datasets: [{
+                                label: 'Progreso (%)',
+                                data: [80, 50, 30],
+                                backgroundColor: ['#7C8F53', '#D9D9D9', '#F4C430']
+                            }]
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>

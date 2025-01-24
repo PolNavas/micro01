@@ -23,9 +23,9 @@ function renderProyecto(proyecto) {
             <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
             <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
             <div class="info_boton2">
-                <button type="">Modificar</button>
-                <button type="">Eliminar</button>
+                <button href="">Ver Proyecto</button>
             </div>
+        </div>
 
 
     `;

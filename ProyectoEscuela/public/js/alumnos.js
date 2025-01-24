@@ -11,7 +11,7 @@ if (user) {
 // Función para generar el contenido de un proyecto
 function renderProyecto(proyecto) {
     const proyectoElement = document.createElement('div');
-    proyectoElement.classList.add('gestion-proyecto');
+    proyectoElement.classList.add('proyect');
 
     proyectoElement.innerHTML = `
         <div class="gestion-proyecto">
@@ -23,7 +23,7 @@ function renderProyecto(proyecto) {
             <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
             <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
             <div class="info_boton2">
-                <button type="">Ver Proyecto</button>
+                <a href="../html/proyectos.html">Ver Proyecto</a>
             </div>
         </div>
     `;

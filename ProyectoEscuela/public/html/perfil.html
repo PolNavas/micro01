@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importar Alumnos</title>
-    <link rel="stylesheet" href="../css/importar_alumnos.css">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="../css/perfil.css">
 </head>
 
 <body>
@@ -22,19 +22,23 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Importar Alumnos</h1></div>
-                <div class="centro-form">
-                    <form action="">
-                        <label for="imagen"><h2>Archivo CSV:</h2></label>
-                        <input type="file" name="imagen" id="imagen">
-                        <div class="boton">
-                            <button type="submit">Enviar</button>
-                        </div>
-                    </form>
-                </div>
+                <div class="titulo"><h1>Perfil</h1></div>
+                <form action="">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" name="apellidos" id="apellidos">
+                    <label for="contraseña">Contraseña:</label>
+                    <input type="text" name="contraseña" id="contraseña">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" name="imagen" id="imagen">
+                    <div class="boton">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
             </div>
             <div class="user_info">
-                <div class="setings"><a href=""><img src="../Img/settings.png" alt="ajustes"></a></div>
+                <div class="setings"><a href=""><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user"><a href="">
                     <img src="../Img/profile.png" alt="perfil">
                     <h4>Username</h4>
@@ -67,28 +71,6 @@
                         }
                     });
                 </script>
-
-                <div class="proyecto-progreso">
-                    <h3>Progreso:</h3>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>Programacion - Act2</h3></div>
-                        </div>
-                    </div>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>Sistemas - Act1</h3></div>
-                        </div>
-                    </div>
-                    <div class="proyectos-progreso">
-                        <div class="gestion-proyecto">
-                            <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
-                            <div class="gestion_titulo-proyecto"><h3>BBDD - Act1.2</h3></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
