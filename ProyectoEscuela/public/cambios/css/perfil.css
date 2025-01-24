@@ -1,0 +1,366 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fondo_madera{
+    background: url(../Img/fondo_madera.jpeg) center center no-repeat;
+    background-size: cover;
+    width: 85%;
+    height: 92vh;
+    border-radius: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px 9px rgba(0, 0, 0, 0.463);
+}
+
+.mid{
+    background-color: #EDE7E0;
+    width: 90%;
+    height: 85%;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px 9px rgba(0, 0, 0, 0.333);
+}
+/* ---------- Menu izquierda ---------- */
+.menu{
+    background-color: #D9D9D9;
+    width: 10%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu .logo{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.logo img{
+    width: 85%;
+    height: 80%;
+}
+
+.menu .iconos_menu{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.iconos_menu .icono{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #655B45;
+    border-radius: 50px;
+}
+
+.icono img{
+    width: 35px;
+    height: 35px;
+}
+
+.main{
+    /* background-color: rgba(0, 255, 255, 0.336); */
+    width: 60%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+/* ---------- Titulo ---------- */
+.titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 10%;
+}
+
+select {
+    width: 60%;
+    height: 40px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    border: 2px solid #655B45;
+    border-radius: 15px;
+    background-color: #F4F4F4;
+    color: #333;
+    outline: none;
+    text-align: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+select:hover {
+    border-color: #833c3c;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+select:focus {
+    border-color: #833c3c;
+    box-shadow: 0px 0px 5px rgba(131, 60, 60, 0.5);
+    background-color: #FFF;
+}
+
+.main {
+    width: 60%;
+    height: 94%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; 
+}
+
+.titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 10%;
+}
+
+.main form {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Uniformidad entre campos */
+}
+
+form label {
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555; /* Tono intermedio */
+}
+
+form input {
+    margin: 5px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    height: 40px;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #ffa600; /* Azul claro en enfoque */
+}
+
+#imagen {
+    margin: 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #fafafa;
+}
+
+.boton {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+form button {
+    width: 120px;
+    height: 40px;
+    background-color: #655B45;
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover {
+    background-color: #483D2B; /* Tono más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Sutil elevación */
+}
+
+
+/* ---------- Menu derecha ---------- */
+.user_info{
+    background-color: #D9D9D9;
+    width: 30%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.setings{
+    width: 100%;
+    height: 7%;
+    display: flex;
+    justify-content: right;
+}
+
+.setings a img{
+    margin: 7px;
+    width: 70%;
+    height: 60%;
+}
+
+.user{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user a{
+    text-decoration: none;
+    color: black;
+}
+
+.user img{
+    width: 80px;
+    height: 80px;
+    margin-top: 5px;
+}
+
+.user h4{
+    margin: 0;
+    padding: 0;
+}
+
+.stats{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+.back{
+    background-color: #ffffff;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.stats a{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.stats img{
+    border-radius: 10px;
+    width: 70%;
+    height: 100%;
+}
+
+/* Modal Stats */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal_contenido {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 50%;
+    position: relative;
+    text-align: center;
+}
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.proyecto-progreso{
+    position: relative;
+    padding: 30px 0 0 0 ;
+    margin: 0;
+    height: 70%;
+    width: 100%;
+    display: grid;
+    gap: 0.5px;
+    grid-template-columns: repeat(1, 1fr);
+    overflow: scroll;
+    scrollbar-width: none; /* Para Firefox */
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+}
+
+.proyecto-progreso::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari y Opera */
+}
+
+.proyecto-progreso h3{
+    margin: 10px;
+    position: absolute;
+}
+
+.proyectos-progreso{
+    margin: 10px;
+    width: 90%;
+    height: 100px;
+    border-radius: 15px;
+    background-color: rgb(144, 110, 51);
+}
+
+.gestion-proyecto{
+    width: 100%;
+    height: 45px;
+    border: 0;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.gestion-proyecto h3{
+    position: relative;
+}
+
+.gestion_titulo-progreso{
+    width: 100%;
+    margin-left: 5px;
+    border: 0;
+    border-radius: 30px;
+}
