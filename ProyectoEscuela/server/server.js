@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
@@ -56,7 +57,7 @@ app.post('/login', (req, res) => {
             if (user.Rol === 'Profesor') {
                 return res.status(200).json({
                     message: 'Login exitoso',
-                    redirect: 'html/profesor.html',
+                    redirect: 'html/profesores.html',
                     userData: user // Devolver los datos del usuario
                 });
             } else if (user.Rol === 'Alumno') {
@@ -67,7 +68,7 @@ app.post('/login', (req, res) => {
                 });
             }
         } else {
-            return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+            return res.status(401).json({ message: 'Usuario o Contrasena incorrectos' });
         }
     });
 });
@@ -75,10 +76,8 @@ app.post('/login', (req, res) => {
 app.get('/proyectos/:userId', (req, res) => {
     const userId = req.params.userId;
 
-    // Imprimir el userId en la consola del servidor
     console.log('ID del Usuario recibido:', userId);
 
-    // Validar que el userId sea un número válido
     if (!userId || isNaN(userId)) {
         console.log('El ID del usuario no es válido');
         return res.status(400).json({ message: 'Falta el ID del usuario o no es válido' });
@@ -91,8 +90,8 @@ app.get('/proyectos/:userId', (req, res) => {
         COUNT(actividad.Id_Actividad) AS CantidadDeActividades
         FROM proyecto
         LEFT JOIN actividad ON proyecto.Id_Proyecto = actividad.Id_Proyecto
-        JOIN usuarios ON proyecto.Id_Proyecto = usuarios.Id_Proyecto
-        WHERE usuarios.Id_usuario = ?
+        JOIN usuario_proyecto ON proyecto.Id_Proyecto = usuario_proyecto.Id_Proyecto
+        WHERE usuario_proyecto.Id_Usuario = ?
         GROUP BY proyecto.Id_Proyecto;
     `;
 
@@ -110,6 +109,117 @@ app.get('/proyectos/:userId', (req, res) => {
         }
     });
 });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../public/uploads')); // Carpeta para guardar imágenes
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`);
+    },
+});
+
+// Filtro de tipo de archivo
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.mimetype)) {
+        return cb(new Error('Tipo de archivo no permitido. Solo se permiten imágenes (jpg, png, jpeg).'), false);
+    }
+    cb(null, true);
+};
+
+// Configuración del middleware Multer
+const upload = multer({
+    storage,
+    fileFilter,
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
+});
+
+// Middleware para analizar solicitudes JSON y datos estáticos
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Ruta para actualizar el perfil del usuario
+app.put('/actualizarPerfil/:userId', upload.single('imagen'), (req, res) => {
+    const userId = req.params.userId;
+    const { nombre, apellidos, Contrasena } = req.body;
+    const imagen = req.file ? req.file.filename : null;
+    console.log('Datos recibidos para actualizar perfil:', req.body);
+
+    console.log('Datos recibidos para actualizar perfil:', { userId, nombre, apellidos, Contrasena, imagen });
+
+    // Validar que los campos obligatorios están presentes
+    if (!nombre || !apellidos || !Contrasena) {
+        console.error('Faltan campos obligatorios:', { nombre, apellidos, Contrasena });
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+    console.log('Datos enviados al servidor:', {
+        nombre,
+        apellidos,
+        Contrasena,
+        imagen,
+    });
+    
+    // Construir la consulta para actualizar el perfil
+    let query = `
+        UPDATE usuarios
+        SET Nombre = ?, Apellido = ?, Contrasena = ?
+    `;
+    const params = [nombre, apellidos, Contrasena];
+
+    if (imagen) {
+        query += `, ImagenPerfil = ?`;
+        params.push(imagen);
+    }
+
+    query += ` WHERE Id_usuario = ?`;
+    params.push(userId);
+
+    // Ejecutar la consulta de actualización
+    db.query(query, params, (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el perfil en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor: ' + err.message });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Consultar los datos actualizados del usuario
+        const selectQuery = 'SELECT * FROM usuarios WHERE Id_usuario = ?';
+        db.query(selectQuery, [userId], (selectErr, results) => {
+            if (selectErr) {
+                console.error('Error al recuperar los datos actualizados del usuario:', selectErr.message);
+                return res.status(500).json({ message: 'Error al recuperar los datos actualizados' });
+            }
+
+            const user = results[0];
+            if (user.ImagenPerfil) {
+                user.ImagenPerfil = `http://localhost:3000/uploads/${user.ImagenPerfil}`;
+            }
+
+            res.status(200).json({
+                message: 'Perfil actualizado con éxito',
+                userData: user,
+            });
+        });
+    });
+});
+
+// Middleware para manejar errores de Multer
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        console.error('Error de Multer:', err.message);
+        return res.status(500).json({ message: 'Error al procesar la imagen: ' + err.message });
+    } else if (err) {
+        console.error('Error general:', err.message);
+        return res.status(500).json({ message: 'Error en el servidor: ' + err.message });
+    }
+    next();
+});
+
+
 
 
 // Iniciar el servidor

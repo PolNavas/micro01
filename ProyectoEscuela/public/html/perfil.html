@@ -23,19 +23,25 @@
             </div>
             <div class="main">
                 <div class="titulo"><h1>Perfil</h1></div>
-                <form action="">
+                <form id="perfilForm">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre">
+                    <input type="text" name="nombre" id="nombre" required>
+                
                     <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos">
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="text" name="contraseña" id="contraseña">
+                    <input type="text" name="apellidos" id="apellidos" required>
+                
+                    <label for="Contrasena">Contraseña:</label>
+                    <input type="password" name="Contrasena" id="Contrasena" required>
+                
                     <label for="imagen">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen">
+                    <input type="file" name="imagen" id="imagen" accept="image/*">
+                
+                    <img id="imagenActual" src="../Img/default-profile.png" alt="Imagen de perfil actual" style="max-width: 100px; display: block; margin-top: 10px;">
+                
                     <div class="boton">
-                        <button type="submit">Enviar</button>
+                        <button type="submit">Actualizar</button>
                     </div>
-                </form>
+                </form>                                
             </div>
             <div class="user_info">
                 <div class="setings"><a href=""><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
@@ -74,6 +80,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/perfil.js"></script>
 </body>
 
 </html>

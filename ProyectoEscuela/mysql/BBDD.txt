@@ -10,7 +10,6 @@ CREATE TABLE usuarios (
     Apellido VARCHAR(50) NOT NULL,
     ImagenPerfil VARCHAR(255),
     Rol ENUM('Profesor', 'Alumno') NOT NULL,
-    Id_Proyecto INT,
     Contraseña VARCHAR(255)
 );
 
