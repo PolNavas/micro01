@@ -11,27 +11,23 @@ if (user) {
 // Función para generar el contenido de un proyecto
 function renderProyecto(proyecto) {
     const proyectoElement = document.createElement('div');
-    proyectoElement.classList.add('proyect');
+    proyectoElement.classList.add('proyectos');
 
     proyectoElement.innerHTML = `
-    <div class="gestion-proyecto">
-        <div class="gestion_icono-proyecyo">
-            <div class="fondo-proyecto">
-                <img src="../Img/programacion.png" alt="icono-group">
+            <div class="gestion-proyecto">
+                <div class="gestion_icono-proyecyo"><div class="fondo-proyecto"><img src="../Img/programacion.png" alt="icono-group"></div></div>
+                <div class="gestion_titulo-proyecto"><h3>${proyecto.Nombre}</h3></div>
+            </div>
+
+            <p id="Descripcion" >${proyecto.Descripcion || 'Sin descripción disponible'}</p>
+            <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
+            <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
+            <div class="info_boton2">
+                <button href="">Modificar</button>
+                <button href="">Eliminar</button>
             </div>
         </div>
-        <div class="gestion_titulo-proyecto">
-            <h3>${proyecto.Nombre}</h3>
-        </div>
-        <p id="Descripcion">${proyecto.Descripcion || 'Sin descripción disponible'}</p>
-        <p id="Fechas">Fechas: ${proyecto.Fecha_Inicio || 'N/A'} - ${proyecto.Fecha_Fin || 'N/A'}</p>
-        <p id="CantidadDeActividades">Actividades: ${proyecto.CantidadDeActividades || 'N/A'}</p>
-        <div class="info_boton2">
-            <a href="../html/proyectos.html?proyectoId=${proyecto.Id_Proyecto}">Ver Proyecto</a>
-        </div>
-    </div>
-`;
-
+    `;
     return proyectoElement;
 }
 
@@ -62,6 +58,7 @@ function cargarProyectos(userId) {
             proyectosContainer.innerHTML = '<p>Error al cargar los proyectos. Por favor, inténtalo más tarde.</p>';
         });
 }
+
 // Comprobar si el usuario es un profesor
 if (user && user.Rol === 'Profesor') {
     cargarProyectos(user.Id_usuario);

@@ -142,9 +142,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Ruta para actualizar el perfil del usuario
 app.put('/actualizarPerfil/:userId', upload.single('imagen'), (req, res) => {
     const userId = req.params.userId;
-    const { nombre, apellidos, Contrasena } = req.body;
+    const { nombre, apellidos, Contrasena } = req.body; // Eliminar Estado del cuerpo
     const imagen = req.file ? req.file.filename : null;
-    console.log('Datos recibidos para actualizar perfil:', req.body);
 
     console.log('Datos recibidos para actualizar perfil:', { userId, nombre, apellidos, Contrasena, imagen });
 
@@ -153,17 +152,11 @@ app.put('/actualizarPerfil/:userId', upload.single('imagen'), (req, res) => {
         console.error('Faltan campos obligatorios:', { nombre, apellidos, Contrasena });
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
-    console.log('Datos enviados al servidor:', {
-        nombre,
-        apellidos,
-        Contrasena,
-        imagen,
-    });
-    
+
     // Construir la consulta para actualizar el perfil
     let query = `
         UPDATE usuarios
-        SET Nombre = ?, Apellido = ?, Contrasena = ?
+        SET Nombre = ?, Apellido = ?, Contrasena = ?, Estado = 'Activo' 
     `;
     const params = [nombre, apellidos, Contrasena];
 
@@ -200,7 +193,7 @@ app.put('/actualizarPerfil/:userId', upload.single('imagen'), (req, res) => {
             }
 
             res.status(200).json({
-                message: 'Perfil actualizado con éxito',
+                message: 'Perfil actualizado con éxito y estado cambiado a Inactivo',
                 userData: user,
             });
         });
@@ -290,6 +283,136 @@ app.get('/actividades/:proyectoId', (req, res) => {
             return res.status(404).json({ message: 'No se encontraron actividades ni ítems para este proyecto' });
         }
     });
+});
+app.get('/alumnosActivos', (req, res) => {
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido 
+        FROM usuarios 
+        WHERE Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los alumnos activos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json(results);
+    });
+});
+app.get('/usuario/:id', (req, res) => {
+    const userId = req.params.id;
+
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido 
+        FROM usuarios 
+        WHERE Id_usuario = ? AND Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener el usuario:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado o inactivo' });
+        }
+
+        res.status(200).json(results[0]);
+    });
+});
+
+app.put('/usuario/:id', (req, res) => {
+    const userId = req.params.id;
+    const { nombre, apellidos } = req.body;
+
+    console.log('Datos recibidos:', { userId, nombre, apellidos });
+
+    if (!nombre || !apellidos) {
+        console.log('Error: Datos faltantes');
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        UPDATE usuarios
+        SET Nombre = ?, Apellido = ?
+        WHERE Id_usuario = ? AND Rol = 'Alumno';
+    `;
+
+    db.query(query, [nombre, apellidos, userId], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el usuario:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.log('Usuario no encontrado o no es un alumno');
+            return res.status(404).json({ message: 'Usuario no encontrado o no es un alumno' });
+        }
+
+        console.log('Usuario actualizado con éxito');
+        res.status(200).json({ message: 'Alumno actualizado con éxito' });
+    });
+});
+app.put('/alumnos/cambiarEstado/:id', (req, res) => {
+    const alumnoId = req.params.id;
+
+    const query = `
+        UPDATE usuarios
+        SET Estado = 'Inactivo'
+        WHERE Id_usuario = ? AND Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, [alumnoId], (err, result) => {
+        if (err) {
+            console.error('Error al cambiar el estado del alumno:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Alumno no encontrado o ya inactivo' });
+        }
+
+        res.status(200).json({ message: 'Alumno cambiado a inactivo con éxito' });
+    });
+});
+// Ruta para crear un nuevo alumno
+app.post('/crearAlumno', upload.single('imagen'), (req, res) => {
+    const { nombre, apellidos, contrasena } = req.body;
+    const imagen = req.file ? req.file.filename : null;
+
+    console.log('Datos recibidos del cliente:', { nombre, apellidos, contrasena, imagen });
+
+    // Validar que los campos obligatorios están presentes
+    if (!nombre || !apellidos || !contrasena) {
+        console.error('Faltan campos obligatorios:', { nombre, apellidos, contrasena });
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        INSERT INTO usuarios (Nombre, Apellido, ImagenPerfil, Rol, Estado, Contrasena)
+        VALUES (?, ?, ?, 'Alumno', 'Activo', ?)
+    `;
+
+    db.query(query, [nombre, apellidos, imagen, contrasena], (err, result) => {
+        if (err) {
+            console.error('Error al insertar el alumno en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        console.log('Alumno creado exitosamente:', result);
+        res.status(201).json({ message: 'Alumno creado exitosamente' });
+    });
+});
+
+// Middleware para manejar errores de Multer
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        console.error('Error de Multer:', err.message);
+        return res.status(500).json({ message: 'Error al procesar la imagen: ' + err.message });
+    }
+    next(err);
 });
 
 

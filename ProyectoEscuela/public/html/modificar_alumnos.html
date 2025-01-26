@@ -24,23 +24,19 @@
             <div class="main">
                 <div class="titulo"><h1>Modificar Alumnos</h1></div>
                 <select name="listaAlumnos" id="listaAlumnos">
-                    <option value="1">Juan</option>
-                    <option value="2">Samuel</option>
+                    <option value="">Seleccione un alumno</option>
                 </select>
-                <form action="">
+                <form id="perfilForm">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre">
+                    <input type="text" name="nombre" id="nombre" required>
                     <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos">
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="text" name="contraseña" id="contraseña">
-                    <label for="imagen">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen">
+                    <input type="text" name="apellidos" id="apellidos" required>
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>
                 </form>
             </div>
+            
             <div class="user_info">
                 <div class="setings"><a href=""><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user"><a href="">
@@ -78,6 +74,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/modificar_alumnos.js"></script>
 </body>
 
 </html>
