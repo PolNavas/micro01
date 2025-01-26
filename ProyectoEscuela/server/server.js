@@ -219,6 +219,79 @@ app.use((err, req, res, next) => {
     next();
 });
 
+app.get('/actividades/:proyectoId', (req, res) => {
+    const proyectoId = req.params.proyectoId;
+
+    console.log('ID del Proyecto recibido:', proyectoId);
+
+    // Validar que el ID sea válido
+    if (!proyectoId || isNaN(proyectoId)) {
+        return res.status(400).json({ message: 'El ID del proyecto no es válido' });
+    }
+
+    const query = `
+        SELECT 
+            a.Id_Actividad, 
+            a.Nombre AS NombreActividad,
+            i.Id_Item, 
+            i.Nombre AS NombreItem, 
+            i.Porcentaje,
+            p.Nombre AS NombreProyecto
+        FROM actividad a
+        LEFT JOIN item_actividad ia ON a.Id_Actividad = ia.Id_Actividad
+        LEFT JOIN item i ON ia.Id_Item = i.Id_Item
+        JOIN proyecto p ON a.Id_Proyecto = p.Id_Proyecto
+        WHERE a.Id_Proyecto = ?;
+    `;
+
+    db.query(query, [proyectoId], (err, results) => {
+        if (err) {
+            console.error('Error en la consulta SQL:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length > 0) {
+            const nombreProyecto = results[0].NombreProyecto;
+
+            // Agrupar actividades e ítems relacionados
+            const actividades = results.reduce((acc, row) => {
+                // Buscar si la actividad ya existe en el array
+                let actividad = acc.find(act => act.Id_Actividad === row.Id_Actividad);
+
+                if (!actividad) {
+                    // Si no existe, crear una nueva actividad y agregarla
+                    actividad = {
+                        Id_Actividad: row.Id_Actividad,
+                        NombreActividad: row.NombreActividad,
+                        Items: [],
+                    };
+                    acc.push(actividad);
+                }
+
+                // Si hay un ítem relacionado, agregarlo a la actividad
+                if (row.Id_Item) {
+                    actividad.Items.push({
+                        Id_Item: row.Id_Item,
+                        NombreItem: row.NombreItem,
+                        Porcentaje: row.Porcentaje,
+                    });
+                }
+
+                return acc;
+            }, []);
+
+            // Responder con los datos del proyecto y sus actividades
+            return res.status(200).json({ 
+                nombreProyecto, 
+                actividades 
+            });
+        } else {
+            // No se encontraron actividades para este proyecto
+            return res.status(404).json({ message: 'No se encontraron actividades ni ítems para este proyecto' });
+        }
+    });
+});
+
 
 
 
