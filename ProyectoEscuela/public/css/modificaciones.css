@@ -97,33 +97,7 @@ body{
     align-items: center;
     padding: 10px;
     height: 10%;
-}
-
-select {
-    width: 60%;
-    height: 40px;
-    padding: 5px 10px;
-    font-size: 1rem;
-    border: 2px solid #655B45;
-    border-radius: 15px;
-    background-color: #F4F4F4;
-    color: #333;
-    outline: none;
-    text-align: center;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-}
-
-select:hover {
-    border-color: #833c3c;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-select:focus {
-    border-color: #833c3c;
-    box-shadow: 0px 0px 5px rgba(131, 60, 60, 0.5);
-    background-color: #FFF;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .main {
@@ -136,74 +110,30 @@ select:focus {
     gap: 15px; 
 }
 
-.titulo{
+.main a{
     display: flex;
+    text-decoration: none;
     justify-content: center;
-    align-items: center;
-    padding: 10px;
-    height: 10%;
 }
 
-.main form {
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px; /* Uniformidad entre campos */
-}
-
-form label {
-    margin-left: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #555; /* Tono intermedio */
-}
-
-form input {
-    margin: 5px 0;
+.main a h4 {
+    font-size: 1.2rem;
+    color: #655b45;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #fdfdfd;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    height: 40px;
-    padding: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
 }
 
-form input:focus {
-    outline: none;
-    border-color: #ffa600; /* Azul claro en enfoque */
+.main a h4:hover {
+    background-color: #e4d4c3; /* Color de fondo al pasar el cursor */
+    transform: translateY(-3px); /* Efecto de elevación */
 }
 
-#imagen {
-    margin: 0;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background-color: #fafafa;
-}
 
-.boton {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-form button {
-    width: 120px;
-    height: 40px;
-    background-color: #655B45;
-    color: #FFF;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-form button:hover {
-    background-color: #483D2B; /* Tono más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Sutil elevación */
-}
 
 
 /* ---------- Menu derecha ---------- */

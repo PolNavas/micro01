@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Alumnos</title>
+    <link rel="stylesheet" href="../css/crear_alumnos.css">
+</head>
+
+<body>
+    <div class="fondo_madera">
+        <div class="mid">
+            <div class="menu">
+                <div class="logo">
+                    <img src="../Img/logo_pequeño.png" alt="logo">
+                </div>
+                <div class="iconos_menu">
+                    <div class="icono"><a href="perfilProfesor.html"><img src="../Img/icono_menu_user.png" alt="icono-user"></div></a>
+                    <div class="icono"><a href="profesores.html"><img src="../Img/clipboard.png" alt="clipboard"></div>
+                    </a>
+                    <div class="icono"><a href=""><img src="../Img/calendario.png" alt="calendario"></div></a>
+                </div>
+            </div>
+            <div class="main">
+                <div class="titulo">
+                    <h1>Crear Alumnos</h1>
+                </div>
+                <form id="crearAlumnoForm">
+   
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del alumno" required>
+
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" name="apellidos" id="apellidos" placeholder="Ingresa los apellidos del alumno"
+                        required>
+
+                    <label for="contraseña">Contraseña:</label>
+                    <input type="password" name="contraseña" id="contraseña" placeholder="Ingresa una contraseña"
+                        required>
+
+
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" name="imagen" id="imagen" accept="image/*">
+
+                    <div class="boton">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="user_info">
+                <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
+                <div class="user"><a href="">
+                        <img src="../Img/profile.png" alt="perfil">
+                        <h4>Username</h4>
+                    </a>
+                </div>
+                <div class="stats"><a href="">
+                        <div class="back"><img src="../Img/stats.png" alt=""></div>
+                    </a></div>
+                <!-- Modal Stats -->
+                <div id="modal" class="modal">
+                    <div class="modal_contenido">
+                        <span class="cerrar">&times;</span>
+                        <h3>Estadísticas del Proyecto</h3>
+                        <p>GRAFICO</p>
+                        <canvas id="grafico"></canvas>
+                    </div>
+                </div>
+                <script>
+                    document.querySelector('.stats').addEventListener('click', (e) => {
+                        e.preventDefault(); // Prevenir comportamiento por defecto
+                        document.getElementById('modal').style.display = 'flex';
+                    });
+
+                    document.querySelector('.cerrar').addEventListener('click', () => {
+                        document.getElementById('modal').style.display = 'none';
+                    });
+
+                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
+                    document.getElementById('modal').addEventListener('click', (e) => {
+                        if (e.target === document.getElementById('modal')) {
+                            document.getElementById('modal').style.display = 'none';
+                        }
+                    });
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
