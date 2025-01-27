@@ -120,6 +120,32 @@ body{
     border-radius: 15px;
     background-color: #D9D9D9;
 }
+
+.boton {
+    margin-top: 25px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.boton button {
+    width: 120px;
+    height: 40px;
+    background-color: #58472b;
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #483D2B; /* Tono más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Sutil elevación */
+}
+
 /* ---------- Menu derecha ---------- */
 
 .user_info{
