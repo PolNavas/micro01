@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Alumnos</title>
+    <title>Modificar Proyectos</title>
     <link rel="stylesheet" href="../css/modificar_proyectos.css">
 </head>
 
@@ -22,15 +22,24 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Modificar Alumnos</h1></div>
-                <select name="listaAlumnos" id="listaAlumnos">
-                    <option value="">Seleccione un alumno</option>
+                <div class="titulo"><h1>Modificar Proyectos</h1></div>
+                <select name="listaAlumnos" id="listaProyectos">
+                    <option value="">Seleccione un proyecto</option>
                 </select>
-                <form id="perfilForm">
+                <form id="proyectolorm">
+
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" required>
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos" required>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del proyecto" required>
+
+                    <label for="descripcion">Descripcion:</label>
+                    <textarea name="descripcion" id="descripcion" placeholder="Ingresa la descripcion"></textarea>
+                    
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" name="fecha" id="fecha" required>
+                    
+                    <label for="fecha">Fecha de entrega:</label>
+                    <input type="date" name="fecha_entrega" id="fecha_entrega" required>
+
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>

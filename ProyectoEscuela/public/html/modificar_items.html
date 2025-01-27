@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Alumnos</title>
+    <title>Modificar Items</title>
     <link rel="stylesheet" href="../css/modificar_items.css">
 </head>
 
@@ -22,15 +22,18 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Modificar Alumnos</h1></div>
-                <select name="listaAlumnos" id="listaAlumnos">
-                    <option value="">Seleccione un alumno</option>
+                <div class="titulo"><h1>Modificar Items</h1></div>
+                <select name="listaAlumnos" id="listaItems">
+                    <option value="">Seleccione un item</option>
                 </select>
-                <form id="perfilForm">
+                <form id="itemsForm">
+                    
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" required>
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos" required>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del item" required>
+
+                    <label for="porcentage">%:</label>
+                    <input type="number" name="porcentage" id="porcentage" placeholder="Ingresa el % del item" required>
+
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>
