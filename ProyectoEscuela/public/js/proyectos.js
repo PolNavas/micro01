@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="proyectos">
                 <div class="gestion-proyecto">
                     <div class="gestion_titulo-proyecto">
-                    <a href="actividades.html">Ver Proyecto</a>
+                    <a href="actividades.html">Ver Actividad</a>
                         <h3>${actividad.NombreActividad}</h3>
                     </div>
                     <ul>${itemsHtml}</ul>
