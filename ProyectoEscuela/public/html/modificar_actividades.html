@@ -23,21 +23,23 @@
             </div>
             <div class="main">
                 <div class="titulo"><h1>Modificar Actividades</h1></div>
-                <select name="listaAlumnos" id="listaActividades">
-                    <option value="">Seleccione un actividad</option>
+                <select name="listaActividades" id="listaActividades">
+                    <option value="">Seleccione una actividad</option>
+                    <!-- Opciones dinámicas -->
                 </select>
                 <form id="actividadForm">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre de la actividad" required>
-
-                    <label for="descripcion">Descripcion:</label>
-                    <textarea name="descripcion" id="descripcion" placeholder="Ingresa la descripcion"></textarea>
-                    
+                    <input type="text" name="nombre" id="nombre" required>
+            
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" required></textarea>
+            
                     <label for="fecha">Fecha:</label>
                     <input type="date" name="fecha" id="fecha" required>
-                    
-                    <label for="fecha">Fecha de entrega:</label>
-                    <input type="date" name="fecha_entrega" id="fecha_entrega" required>
+            
+                    <label for="fechaEntrega">Fecha de Entrega:</label>
+                    <input type="date" name="fechaEntrega" id="fechaEntrega" required>
+            
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>
@@ -81,7 +83,7 @@
             </div>
         </div>
     </div>
-    <script src="../js/modificar_alumnos.js"></script>
+    <script src="../js/modifcar_actividades.js"></script>
 </body>
 
 </html>

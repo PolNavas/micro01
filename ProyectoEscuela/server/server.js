@@ -430,33 +430,23 @@ app.post('/crearProyecto', (req, res) => {
         res.status(201).json({ message: 'Proyecto creado exitosamente' });
     });
 });
-app.get('/proyectos', (req, res) => {
-    const query = 'SELECT Id_Proyecto, Nombre FROM proyecto';
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error al obtener los proyectos:', err.message);
-            return res.status(500).json({ message: 'Error en el servidor' });
-        }
 
-        res.status(200).json({ proyectos: results });
-    });
-});
 app.post('/crearActividad', (req, res) => {
     const { nombre, descripcion, fecha, fecha_entrega, proyectoId } = req.body;
-
+    
     console.log('Datos recibidos para crear actividad:', { nombre, descripcion, fecha, fecha_entrega, proyectoId });
-
+    
     // Validar que todos los campos están presentes
     if (!nombre || !descripcion || !fecha || !fecha_entrega || !proyectoId) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
-
+    
     const query = `
-        INSERT INTO actividad (Nombre, Descripcion, Fecha, Fecha_Entrega, Id_Proyecto)
-        VALUES (?, ?, ?, ?, ?)
+    INSERT INTO actividad (Nombre, Descripcion, Fecha, Fecha_Entrega, Id_Proyecto)
+    VALUES (?, ?, ?, ?, ?)
     `;
-
+    
     db.query(query, [nombre, descripcion, fecha, fecha_entrega, proyectoId], (err, result) => {
         if (err) {
             console.error('Error al insertar la actividad en la base de datos:', err.message);
@@ -468,58 +458,180 @@ app.post('/crearActividad', (req, res) => {
 });
 app.get('/actividades', (req, res) => {
     const query = `
-        SELECT Id_Actividad, Nombre, Descripcion
-        FROM actividad
+    SELECT Id_Actividad, Nombre, Descripcion
+    FROM actividad
     `;
-
+    
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error al obtener las actividades:', err.message);
             return res.status(500).json({ message: 'Error en el servidor' });
         }
-
+        
         res.status(200).json({ actividades: results });
     });
 });
 
 app.post('/crearItem', (req, res) => {
     const { nombre, porcentage, actividadId } = req.body;
-
+    
     console.log('Datos recibidos para crear item:', { nombre, porcentage, actividadId });
-
+    
     // Validar campos obligatorios
     if (!nombre || !porcentage || !actividadId) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
-
+    
     // Paso 1: Insertar el ítem en la tabla `item`
     const queryItem = `
-        INSERT INTO item (Nombre, Porcentaje)
-        VALUES (?, ?)
+    INSERT INTO item (Nombre, Porcentaje)
+    VALUES (?, ?)
     `;
-
+    
     db.query(queryItem, [nombre, porcentage], (err, result) => {
         if (err) {
             console.error('Error al insertar el item en la base de datos:', err.message);
             return res.status(500).json({ message: 'Error al crear el ítem' });
         }
-
+        
         const itemId = result.insertId; // Obtener el ID del ítem recién creado
-
+        
         // Paso 2: Insertar la relación en la tabla `item_actividad`
         const queryItemActividad = `
-            INSERT INTO item_actividad (Id_Actividad, Id_Item)
-            VALUES (?, ?)
+        INSERT INTO item_actividad (Id_Actividad, Id_Item)
+        VALUES (?, ?)
         `;
-
+        
         db.query(queryItemActividad, [actividadId, itemId], (err2) => {
             if (err2) {
                 console.error('Error al insertar la relación en item_actividad:', err2.message);
                 return res.status(500).json({ message: 'Error al vincular el ítem con la actividad' });
             }
-
+            
             res.status(201).json({ message: 'Ítem creado y vinculado a la actividad exitosamente' });
         });
+    });
+});
+app.get('/proyectos', (req, res) => {
+    const query = 'SELECT Id_Proyecto, Nombre FROM proyecto';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los proyectos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        console.log('Proyectos encontrados:', results); // Log para verificar los resultados
+        res.status(200).json({ proyectos: results });
+    });
+});
+
+
+app.get('/proyectos/:id', (req, res) => {
+    const proyectoId = req.params.id;
+
+    console.log('ID del proyecto recibido:', proyectoId); // Log para depurar
+
+    if (!proyectoId || isNaN(proyectoId)) {
+        console.error('ID de proyecto inválido.');
+        return res.status(400).json({ message: 'ID de proyecto inválido.' });
+    }
+
+    const query = `
+        SELECT Id_Proyecto, Nombre, Descripcion, 
+        DATE_FORMAT(Fecha, '%Y-%m-%d') AS Fecha, 
+        DATE_FORMAT(Fecha_Entrega, '%Y-%m-%d') AS Fecha_Entrega
+        FROM proyecto
+        WHERE Id_Proyecto = ?
+    `;
+
+    db.query(query, [proyectoId], (err, results) => {
+        if (err) {
+            console.error('Error en la consulta SQL:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            console.warn('No se encontró el proyecto con el ID:', proyectoId);
+            return res.status(404).json({ message: 'Proyecto no encontrado' });
+        }
+
+        console.log('Proyecto encontrado:', results[0]);
+        res.status(200).json(results[0]);
+    });
+});
+
+app.put('/proyectos/:id', (req, res) => {
+    const proyectoId = req.params.id;
+    const { nombre, descripcion, fecha, fecha_entrega } = req.body;
+
+    console.log('Datos recibidos para actualizar el proyecto:', {
+        proyectoId,
+        nombre,
+        descripcion,
+        fecha,
+        fecha_entrega,
+    });
+
+    if (!nombre || !descripcion || !fecha || !fecha_entrega) {
+        console.error('Faltan campos obligatorios:', {
+            nombre,
+            descripcion,
+            fecha,
+            fecha_entrega,
+        });
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        UPDATE proyecto
+        SET Nombre = ?, Descripcion = ?, Fecha = ?, Fecha_Entrega = ?
+        WHERE Id_Proyecto = ?
+    `;
+
+    db.query(query, [nombre, descripcion, fecha, fecha_entrega, proyectoId], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el proyecto:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.warn('No se encontró el proyecto con el ID:', proyectoId);
+            return res.status(404).json({ message: 'Proyecto no encontrado' });
+        }
+
+        console.log('Proyecto actualizado exitosamente:', result);
+        res.status(200).json({ message: 'Proyecto actualizado exitosamente' });
+    });
+});
+// Ruta para obtener todas las actividades
+// Mantén solo una definición de la ruta para obtener una actividad específica por su ID
+app.get('/actividades/actividad/:id', (req, res) => {
+    const actividadId = req.params.id;
+
+    console.log('ID de la actividad recibida:', actividadId);
+
+    const query = `
+        SELECT Id_Actividad, Nombre, Descripcion, 
+               DATE_FORMAT(Fecha, '%Y-%m-%d') AS Fecha, 
+               DATE_FORMAT(Fecha_Entrega, '%Y-%m-%d') AS Fecha_Entrega
+        FROM actividad
+        WHERE Id_Actividad = ?
+    `;
+
+    db.query(query, [actividadId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener la actividad:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            console.warn('Actividad no encontrada con el ID:', actividadId);
+            return res.status(404).json({ message: 'Actividad no encontrada' });
+        }
+
+        console.log('Datos de la actividad enviados al cliente:', results[0]);
+        res.status(200).json(results[0]);
     });
 });
 
