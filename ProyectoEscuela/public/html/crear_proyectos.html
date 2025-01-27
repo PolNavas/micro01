@@ -26,25 +26,23 @@
                     <h1>Crear Proyectos</h1>
                 </div>
                 <form id="crearProyectoForm">
-   
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del proyecto" required>
-
-                    <label for="descripcion">Descripcion:</label>
-                    <textarea name="descripcion" id="descripcion" placeholder="Ingresa la descripcion"></textarea>
+            
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" placeholder="Ingresa la descripción" required></textarea>
                     
-                    <label for="fecha">Fecha:</label>
+                    <label for="fecha">Fecha de Inicio:</label>
                     <input type="date" name="fecha" id="fecha" required>
-                    
-                    <label for="fecha">Fecha de entrega:</label>
+            
+                    <label for="fecha_entrega">Fecha de Entrega:</label>
                     <input type="date" name="fecha_entrega" id="fecha_entrega" required>
-                
-
+            
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>
                 </form>
-            </div>
+            </div>            
 
             <div class="user_info">
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
@@ -87,6 +85,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/crear_proyectos.js"></script>
 </body>
 
 </html>

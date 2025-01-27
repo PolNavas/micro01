@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-
+app.use(express.json());
 // Configuración de la base de datos para XAMPP
 const db = mysql.createConnection({
     host: "localhost",
@@ -384,7 +384,6 @@ app.post('/crearAlumno', upload.single('imagen'), (req, res) => {
 
     console.log('Datos recibidos del cliente:', { nombre, apellidos, contrasena, imagen });
 
-    // Validar que los campos obligatorios están presentes
     if (!nombre || !apellidos || !contrasena) {
         console.error('Faltan campos obligatorios:', { nombre, apellidos, contrasena });
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
@@ -405,15 +404,125 @@ app.post('/crearAlumno', upload.single('imagen'), (req, res) => {
         res.status(201).json({ message: 'Alumno creado exitosamente' });
     });
 });
+app.post('/crearProyecto', (req, res) => {
+    const { nombre, descripcion, fecha, fecha_entrega } = req.body;
 
-// Middleware para manejar errores de Multer
-app.use((err, req, res, next) => {
-    if (err instanceof multer.MulterError) {
-        console.error('Error de Multer:', err.message);
-        return res.status(500).json({ message: 'Error al procesar la imagen: ' + err.message });
+    console.log('Datos recibidos para crear proyecto:', { nombre, descripcion, fecha, fecha_entrega });
+
+    // Validar los campos obligatorios
+    if (!nombre || !descripcion || !fecha || !fecha_entrega) {
+        console.error('Faltan campos obligatorios:', { nombre, descripcion, fecha, fecha_entrega });
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
-    next(err);
+
+    const query = `
+        INSERT INTO proyecto (Nombre, Descripcion, Fecha, Fecha_Entrega)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    db.query(query, [nombre, descripcion, fecha, fecha_entrega], (err, result) => {
+        if (err) {
+            console.error('Error al insertar el proyecto en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        console.log('Proyecto creado exitosamente:', result);
+        res.status(201).json({ message: 'Proyecto creado exitosamente' });
+    });
 });
+app.get('/proyectos', (req, res) => {
+    const query = 'SELECT Id_Proyecto, Nombre FROM proyecto';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los proyectos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json({ proyectos: results });
+    });
+});
+app.post('/crearActividad', (req, res) => {
+    const { nombre, descripcion, fecha, fecha_entrega, proyectoId } = req.body;
+
+    console.log('Datos recibidos para crear actividad:', { nombre, descripcion, fecha, fecha_entrega, proyectoId });
+
+    // Validar que todos los campos están presentes
+    if (!nombre || !descripcion || !fecha || !fecha_entrega || !proyectoId) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        INSERT INTO actividad (Nombre, Descripcion, Fecha, Fecha_Entrega, Id_Proyecto)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(query, [nombre, descripcion, fecha, fecha_entrega, proyectoId], (err, result) => {
+        if (err) {
+            console.error('Error al insertar la actividad en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(201).json({ message: 'Actividad creada exitosamente' });
+    });
+});
+app.get('/actividades', (req, res) => {
+    const query = `
+        SELECT Id_Actividad, Nombre, Descripcion
+        FROM actividad
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener las actividades:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json({ actividades: results });
+    });
+});
+
+app.post('/crearItem', (req, res) => {
+    const { nombre, porcentage, actividadId } = req.body;
+
+    console.log('Datos recibidos para crear item:', { nombre, porcentage, actividadId });
+
+    // Validar campos obligatorios
+    if (!nombre || !porcentage || !actividadId) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    // Paso 1: Insertar el ítem en la tabla `item`
+    const queryItem = `
+        INSERT INTO item (Nombre, Porcentaje)
+        VALUES (?, ?)
+    `;
+
+    db.query(queryItem, [nombre, porcentage], (err, result) => {
+        if (err) {
+            console.error('Error al insertar el item en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error al crear el ítem' });
+        }
+
+        const itemId = result.insertId; // Obtener el ID del ítem recién creado
+
+        // Paso 2: Insertar la relación en la tabla `item_actividad`
+        const queryItemActividad = `
+            INSERT INTO item_actividad (Id_Actividad, Id_Item)
+            VALUES (?, ?)
+        `;
+
+        db.query(queryItemActividad, [actividadId, itemId], (err2) => {
+            if (err2) {
+                console.error('Error al insertar la relación en item_actividad:', err2.message);
+                return res.status(500).json({ message: 'Error al vincular el ítem con la actividad' });
+            }
+
+            res.status(201).json({ message: 'Ítem creado y vinculado a la actividad exitosamente' });
+        });
+    });
+});
+
 
 
 

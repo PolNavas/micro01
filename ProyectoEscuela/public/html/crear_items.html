@@ -26,23 +26,22 @@
                     <h1>Crear Items</h1>
                 </div>
                 <form id="crearItemForm">
-   
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del item" required>
-
+            
                     <label for="porcentage">%:</label>
                     <input type="number" name="porcentage" id="porcentage" placeholder="Ingresa el % del item" required>
-
-                    <select name="listaAlumnos" id="listaAlumnos">
-                        <option value="">Seleccione un alumno</option>
+            
+                    <label for="actividad">Actividad:</label>
+                    <select name="listaActividades" id="listaActividades" required>
+                        <option value="">Seleccione una actividad</option>
                     </select>
-
+            
                     <div class="boton">
                         <button type="submit">Enviar</button>
                     </div>
                 </form>
-            </div>
-
+            </div>            
             <div class="user_info">
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user"><a href="">
@@ -84,6 +83,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/crear_items.js"></script>
 </body>
 
 </html>
