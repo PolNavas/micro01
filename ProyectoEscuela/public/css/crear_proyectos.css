@@ -132,7 +132,7 @@ form label {
     color: #555; /* Tono intermedio */
 }
 
-form input {
+form input, textarea {
     margin: 5px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
@@ -142,17 +142,9 @@ form input {
     transition: border-color 0.3s;
 }
 
-form input:focus {
+form input:focus, textarea:focus {
     outline: none;
     border-color: #ffa600; /* Azul claro en enfoque */
-}
-
-#imagen {
-    margin: 0;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background-color: #fafafa;
 }
 
 .boton {

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Alumnos</title>
-    <link rel="stylesheet" href="../css/crear_proyectos.css">
+    <title>Crear Proyectos</title>
+    <link rel="stylesheet" href="../css/crear_actividades.css">
 </head>
 
 <body>
@@ -17,31 +17,28 @@
                 </div>
                 <div class="iconos_menu">
                     <div class="icono"><a href="perfilProfesor.html"><img src="../Img/icono_menu_user.png" alt="icono-user"></div></a>
-                    <div class="icono"><a href="profesores.html"><img src="../Img/clipboard.png" alt="clipboard"></div>
-                    </a>
+                    <div class="icono"><a href="profesores.html"><img src="../Img/clipboard.png" alt="clipboard"></div></a>
                     <div class="icono"><a href=""><img src="../Img/calendario.png" alt="calendario"></div></a>
                 </div>
             </div>
             <div class="main">
                 <div class="titulo">
-                    <h1>Crear Alumnos</h1>
+                    <h1>Crear Proyectos</h1>
                 </div>
                 <form id="crearAlumnoForm">
    
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del alumno" required>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingresa el nombre del proyecto" required>
 
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" id="apellidos" placeholder="Ingresa los apellidos del alumno"
-                        required>
-
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="password" name="contraseña" id="contraseña" placeholder="Ingresa una contraseña"
-                        required>
-
-
-                    <label for="imagen">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen" accept="image/*">
+                    <label for="descripcion">Descripcion:</label>
+                    <textarea name="descripcion" id="descripcion" placeholder="Ingresa la descripcion"></textarea>
+                    
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" name="fecha" id="fecha" required>
+                    
+                    <label for="fecha">Fecha de entrega:</label>
+                    <input type="date" name="fecha_entrega" id="fecha_entrega" required>
+                
 
                     <div class="boton">
                         <button type="submit">Enviar</button>
