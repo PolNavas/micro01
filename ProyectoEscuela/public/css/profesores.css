@@ -16,7 +16,6 @@ body{
     width: 85%;
     height: 92vh;
     border-radius: 30px;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -181,17 +180,17 @@ a{
 /* ---------- Proyectos ---------- */
 
 .proyecto{
+    width: 100%;
     position: relative;
     padding: 30px 0 0 0 ;
     margin: 0;
     height: 70%;
     width: 100%;
-    display: grid;
-    gap: 0.5px;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
     overflow: scroll;
     scrollbar-width: none; /* Para Firefox */
     -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+    /* background-color: white; */
 }
 
 .proyecto::-webkit-scrollbar {
@@ -204,11 +203,21 @@ a{
 }
 
 .proyectos{
-    margin: 10px;
+    background-color: rgb(144, 110, 51);
+    border-radius: 15px;
+    width: 90%;
+    height: 190px;
+}
+
+#proyectosContainer{
+    margin: 40px 10px 10px 10px;
     width: 90%;
     height: 190px;
     border-radius: 15px;
-    background-color: rgb(144, 110, 51);
+    /* background-color: rgb(144, 110, 51); */
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .gestion-proyecto{

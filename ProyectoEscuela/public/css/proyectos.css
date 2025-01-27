@@ -108,7 +108,9 @@ body{
     margin: 0;
     height: 100%;
     width: 100%;
-    display: flex;
+    display: grid;
+    gap: 0.5px;
+    grid-template-columns: repeat(2, 1fr);
     overflow: scroll;
     scrollbar-width: none; /* Para Firefox */
     -ms-overflow-style: none; /* Para Internet Explorer y Edge */
@@ -124,9 +126,6 @@ body{
 }
 
 .proyectos{
-    display: grid;
-    gap: 0.5px;
-    grid-template-columns: repeat(2, 1fr);
     margin: 10px;
     width: 90%;
     height: 150px;

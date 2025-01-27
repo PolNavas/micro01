@@ -11,7 +11,7 @@ if (user) {
 // Función para generar el contenido de un proyecto
 function renderProyecto(proyecto) {
     const proyectoElement = document.createElement('div');
-    proyectoElement.classList.add('proyect');
+    proyectoElement.classList.add('proyectos');
 
     proyectoElement.innerHTML = `
             <div class="gestion-proyecto">
@@ -34,6 +34,8 @@ function renderProyecto(proyecto) {
 // Función para cargar los proyectos desde el backend
 function cargarProyectos(userId) {
     const proyectosContainer = document.getElementById('proyectosContainer');
+    proyectosContainer.classList.remove("proyectos");
+
 
     fetch(`http://localhost:3000/proyectos/${userId}`)
         .then((response) => {
