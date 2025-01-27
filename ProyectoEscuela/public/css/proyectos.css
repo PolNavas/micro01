@@ -108,9 +108,7 @@ body{
     margin: 0;
     height: 100%;
     width: 100%;
-    display: grid;
-    gap: 0.5px;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
     overflow: scroll;
     scrollbar-width: none; /* Para Firefox */
     -ms-overflow-style: none; /* Para Internet Explorer y Edge */
@@ -126,20 +124,32 @@ body{
 }
 
 .proyectos{
+    display: grid;
+    gap: 0.5px;
+    grid-template-columns: repeat(2, 1fr);
     margin: 10px;
     width: 90%;
     height: 150px;
     border-radius: 15px;
     background-color: rgb(144, 110, 51);
+    overflow: scroll;
+    overflow: scroll;
+    scrollbar-width: none; /* Para Firefox */
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+}
+
+.proyectos::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari y Opera */
 }
 
 .gestion-proyecto{
+    position: relative;
     width: 60%;
     height: 45px;
     border: 0;
     border-radius: 30px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 0 5px;
@@ -161,7 +171,14 @@ body{
     justify-content: center;
 }
 
-
+.gestion_titulo-proyecto a{
+    /* position: absolute;
+    margin-left: 70%; */
+    /* top: 0; */
+    /* right: 0; */
+    color: #fff;
+    text-decoration: none;
+}
 
 
 /* ---------- Menu derecha ---------- */

@@ -11,7 +11,7 @@ if (user) {
 // Función para generar el contenido de un proyecto
 function renderProyecto(proyecto) {
     const proyectoElement = document.createElement('div');
-    proyectoElement.classList.add('proyectos');
+    proyectoElement.classList.add('proyect');
 
     proyectoElement.innerHTML = `
             <div class="gestion-proyecto">

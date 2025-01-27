@@ -215,7 +215,6 @@ body{
 
 .proyectos{
     margin: 10px;
-    padding-left: 10px;
     width: 90%;
     height: 190px;
     border-radius: 15px;
@@ -285,6 +284,7 @@ body{
     border: 0;
     border-radius: 30px;
 }
+
 
 
 
