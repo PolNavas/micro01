@@ -1071,6 +1071,43 @@ app.get('/notasActividades/:userId', (req, res) => {
         res.status(200).json({ notasActividades: results });
     });
 });
+app.get('/notasProyectos/:userId', (req, res) => {
+    const userId = req.params.userId;
+
+    console.log('ID del usuario recibido:', userId);
+
+    if (!userId || isNaN(userId)) {
+        return res.status(400).json({ message: 'ID de usuario inválido.' });
+    }
+
+    const query = `
+        SELECT p.Id_Proyecto, p.Nombre AS NombreProyecto, 
+        COALESCE(AVG(n1.Nota), 0) AS PromedioNotasItems,
+        COALESCE(AVG(n2.Nota), 0) AS PromedioNotasActividades,
+        COALESCE(AVG(n1.Nota), 0) + COALESCE(AVG(n2.Nota), 0) AS NotaTotal
+        FROM proyecto p
+        LEFT JOIN usuario_proyecto up ON p.Id_Proyecto = up.Id_Proyecto
+        LEFT JOIN actividad a ON a.Id_Proyecto = p.Id_Proyecto
+        LEFT JOIN notas n1 ON n1.Id_Item IN (
+            SELECT ia.Id_Item
+            FROM item_actividad ia
+            WHERE ia.Id_Actividad = a.Id_Actividad
+        )
+        LEFT JOIN notas_actividad n2 ON n2.Id_Actividad = a.Id_Actividad
+        WHERE up.Id_Usuario = ?
+        GROUP BY p.Id_Proyecto;
+    `;
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener las notas de los proyectos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor.' });
+        }
+
+        console.log('Notas de los proyectos:', results);
+        res.status(200).json({ proyectos: results });
+    });
+});
 
 
 
