@@ -183,18 +183,17 @@ body{
     justify-content: right;
 }
 
-.setings a img{
-    margin: 7px;
-    width: 70%;
-    height: 60%;
+.setings a{
+    width: 100%;
+    height: 7%;
+    display: flex;
+    justify-content: right;
 }
 
-.user{
-    width: 100%;
-    height: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.setings a img{
+    margin: 7px;
+    width: 10%;
+    height: 20px;
 }
 
 .user a{
