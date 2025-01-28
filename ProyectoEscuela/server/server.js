@@ -92,24 +92,21 @@ app.get('/proyectos/:userId', (req, res) => {
 
     const query = `
         SELECT 
-            proyecto.Id_Proyecto,
-            proyecto.Nombre,
-            proyecto.Descripcion,
-            DATE_FORMAT(proyecto.Fecha, '%d-%m-%Y') AS Fecha_Inicio,
-            DATE_FORMAT(proyecto.Fecha_Entrega, '%d-%m-%Y') AS Fecha_Fin,
+            p.Id_Proyecto,
+            p.Nombre,
+            p.Descripcion,
+            DATE_FORMAT(p.Fecha, '%d-%m-%Y') AS Fecha_Inicio,
+            DATE_FORMAT(p.Fecha_Entrega, '%d-%m-%Y') AS Fecha_Fin,
             (
-                SELECT COUNT(actividad.Id_Actividad)
-                FROM actividad
-                JOIN usuario_proyecto 
-                  ON usuario_proyecto.Id_Proyecto = actividad.Id_Proyecto
-                WHERE usuario_proyecto.Id_Usuario = ?
-                  AND actividad.Id_Proyecto = proyecto.Id_Proyecto
+                SELECT COUNT(DISTINCT a.Id_Actividad)
+                FROM actividad a
+                JOIN usuario_proyecto up ON up.Id_Proyecto = a.Id_Proyecto
+                WHERE up.Id_Usuario = ? AND a.Id_Proyecto = p.Id_Proyecto
             ) AS CantidadDeActividades
-        FROM proyecto
-        JOIN usuario_proyecto 
-          ON usuario_proyecto.Id_Proyecto = proyecto.Id_Proyecto
-        WHERE usuario_proyecto.Id_Usuario = ?
-        GROUP BY proyecto.Id_Proyecto;
+        FROM proyecto p
+        JOIN usuario_proyecto up ON up.Id_Proyecto = p.Id_Proyecto
+        WHERE up.Id_Usuario = ?
+        GROUP BY p.Id_Proyecto;
     `;
 
     db.query(query, [userId, userId], (err, results) => {
@@ -126,6 +123,7 @@ app.get('/proyectos/:userId', (req, res) => {
         }
     });
 });
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -1041,6 +1039,39 @@ app.get('/notas/:alumnoId', (req, res) => {
         res.status(200).json(results);
     });
 });
+app.get('/notasActividades/:userId', (req, res) => {
+    const userId = req.params.userId;
+
+    console.log('ID del Usuario recibido:', userId);
+
+    if (!userId || isNaN(userId)) {
+        return res.status(400).json({ message: 'El ID del usuario no es válido' });
+    }
+
+    const query = `
+        SELECT 
+            a.Id_Actividad,
+            a.Nombre AS ActividadNombre,
+            na.Nota
+        FROM notas_actividad na
+        JOIN actividad a ON na.Id_Actividad = a.Id_Actividad
+        WHERE na.Id_Usuario = ?;
+    `;
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener las notas de las actividades:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron notas para este usuario.' });
+        }
+
+        res.status(200).json({ notasActividades: results });
+    });
+});
+
 
 
 
