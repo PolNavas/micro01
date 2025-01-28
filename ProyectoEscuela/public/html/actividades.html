@@ -25,27 +25,26 @@
             </div>
             <div class="main">
                 <div class="titulo">
-                    <h1>Actividad - 1</h1>
+                    <h1><span id="nombreActividad"></span></h1>
                 </div>
                 <div class="actividad">
                     <div class="actividades">
                         <div>
-                            <h4>Fecha de inicio:</h4>
-                            <p></p>
+                            <h4>Fecha de inicio:<span id="fechaInicio"></span></h4>
                         </div>
                         <div>
-                            <h4>Fecha de finalización:</h4>
-                            <p></p>
+                            <h4>Fecha de finalización:<span id="fechaFin"></span></h4>
                         </div>
                         <div>
                             <h4>Descripcion:</h4>
-                            <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nihil,
-                                facilis hic accusantium esse possimus maiores necessitatibus deserunt nisi! Beatae.</p>
+                            <p class="desc"><span id="descripcionActividad"></span></p>
                         </div>
-                        <input type="file" name="actividad_final" id="actividad_final">
-
+                        <div>
+                            <h4>Archivo (PDF):</h4>
+                        <input type="file" name="archivo" id="archivo" accept="application/pdf" required>
+                        </div>
                         <div class="boton">
-                            <button type="submit">Enviar</button>
+                            <button type="submit">Subir Archivo</button>
                         </div>
 
                     </div>
@@ -56,32 +55,6 @@
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 
                 <div class="stats"><div class="back"><img src="../Img/stats.png" alt=""></div></div>
-                <!-- Modal Stats -->
-                <div id="modal" class="modal">
-                    <div class="modal_contenido">
-                        <span class="cerrar">&times;</span>
-                        <h3>Estadísticas del Proyecto</h3>
-                        <p>GRAFICO</p>
-                        <canvas id="grafico"></canvas>
-                    </div>
-                </div>
-                <script>
-                    document.querySelector('.stats').addEventListener('click', (e) => {
-                        e.preventDefault(); // Prevenir comportamiento por defecto
-                        document.getElementById('modal').style.display = 'flex';
-                    });
-
-                    document.querySelector('.cerrar').addEventListener('click', () => {
-                        document.getElementById('modal').style.display = 'none';
-                    });
-
-                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
-                    document.getElementById('modal').addEventListener('click', (e) => {
-                        if (e.target === document.getElementById('modal')) {
-                            document.getElementById('modal').style.display = 'none';
-                        }
-                    });
-                </script>
                 
 <!-- Barra de progreso  -->
 <div class="progreso">
@@ -183,7 +156,7 @@
             </div>
         </div>
     </div>
-    <script src="../js/modal.js"></script>
+    <script src="../js/actividad.js"></script>
 </body>
 
 </html>

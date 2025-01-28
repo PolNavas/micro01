@@ -48,46 +48,23 @@
             <div class="user_info">
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
                 <div class="user">
-                    <img src="../Img/profile.png" alt="perfil">
-                    <h4><span id="username"></span></h4>
+                    <a href="">
+                        <img src="../Img/profile.png" alt="perfil" style="border-radius: 200px;" height="50px" width="50px">
+                        <h2>Username</h4>
+                    </a>
+                </div> 
+                <div class="titulo">
+                    <h1>Gráfico de Notas</h1>
                 </div>
-                <div class="stats">
-                    <div class="back"><img src="../Img/stats.png" alt=""></div>
-                </div>
-                <!-- Modal Stats -->
-                <div id="modal" class="modal">
-                    <div class="modal_contenido">
-                        <span class="cerrar">&times;</span>
-                        <h3>Estadísticas del Proyecto</h3>
-                        <p>GRAFICO</p>
-                        <canvas id="grafico"></canvas>
-                    </div>
-                </div>
-                <script>
-                    document.querySelector('.stats').addEventListener('click', () => {
-                        document.getElementById('modal').style.display = 'flex';
-                    });
-                    document.querySelector('.cerrar').addEventListener('click', () => {
-                        document.getElementById('modal').style.display = 'none';
-                    });
-                    // Gráfico con Chart.js
-                    const ctx = document.getElementById('grafico').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Tarea 1', 'Tarea 2', 'Tarea 3'],
-                            datasets: [{
-                                label: 'Progreso (%)',
-                                data: [80, 50, 30],
-                                backgroundColor: ['#7C8F53', '#D9D9D9', '#F4C430']
-                            }]
-                        }
-                    });
-                </script>
+                <canvas id="graficoNotas" width="800" height="400"></canvas>
             </div>
         </div>
     </div>
     <script src="../js/alumnos.js"></script>
+    <script src="../js/cargarperfil.js"></script>
+    <script src="../js/graficodenotas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 
 </html>

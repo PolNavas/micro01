@@ -23,6 +23,13 @@ db.connect((err) => {
         console.log('Conexión exitosa a MySQL en XAMPP');
     }
 });
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        console.error('Error de Multer:', err.message);
+        return res.status(400).json({ message: 'Error al procesar el archivo: ' + err.message });
+    }
+    next(err);
+});
 
 // Middleware para analizar solicitudes en formato JSON
 app.use(bodyParser.json());
@@ -84,18 +91,28 @@ app.get('/proyectos/:userId', (req, res) => {
     }
 
     const query = `
-        SELECT proyecto.*,
-        DATE_FORMAT(proyecto.Fecha, '%d-%m-%Y') AS Fecha_Inicio,
-        DATE_FORMAT(proyecto.Fecha_Entrega, '%d-%m-%Y') AS Fecha_Fin,
-        COUNT(actividad.Id_Actividad) AS CantidadDeActividades
+        SELECT 
+            proyecto.Id_Proyecto,
+            proyecto.Nombre,
+            proyecto.Descripcion,
+            DATE_FORMAT(proyecto.Fecha, '%d-%m-%Y') AS Fecha_Inicio,
+            DATE_FORMAT(proyecto.Fecha_Entrega, '%d-%m-%Y') AS Fecha_Fin,
+            (
+                SELECT COUNT(actividad.Id_Actividad)
+                FROM actividad
+                JOIN usuario_proyecto 
+                  ON usuario_proyecto.Id_Proyecto = actividad.Id_Proyecto
+                WHERE usuario_proyecto.Id_Usuario = ?
+                  AND actividad.Id_Proyecto = proyecto.Id_Proyecto
+            ) AS CantidadDeActividades
         FROM proyecto
-        LEFT JOIN actividad ON proyecto.Id_Proyecto = actividad.Id_Proyecto
-        JOIN usuario_proyecto ON proyecto.Id_Proyecto = usuario_proyecto.Id_Proyecto
+        JOIN usuario_proyecto 
+          ON usuario_proyecto.Id_Proyecto = proyecto.Id_Proyecto
         WHERE usuario_proyecto.Id_Usuario = ?
         GROUP BY proyecto.Id_Proyecto;
     `;
 
-    db.query(query, [userId], (err, results) => {
+    db.query(query, [userId, userId], (err, results) => {
         if (err) {
             console.error('Error en la consulta SQL:', err.message);
             return res.status(500).json({ message: 'Error en el servidor' });
@@ -109,6 +126,7 @@ app.get('/proyectos/:userId', (req, res) => {
         }
     });
 });
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '../public/uploads')); // Carpeta para guardar imágenes
@@ -120,9 +138,9 @@ const storage = multer.diskStorage({
 
 // Filtro de tipo de archivo
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
     if (!allowedTypes.includes(file.mimetype)) {
-        return cb(new Error('Tipo de archivo no permitido. Solo se permiten imágenes (jpg, png, jpeg).'), false);
+        return cb(new Error('Tipo de archivo no permitido. Solo se permiten imágenes (jpg, png, jpeg) y archivos PDF.'), false);
     }
     cb(null, true);
 };
@@ -131,8 +149,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage,
     fileFilter,
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB (ajustar según necesidad)
 });
+
 
 // Middleware para analizar solicitudes JSON y datos estáticos
 app.use(express.json());
@@ -632,6 +651,394 @@ app.get('/actividades/actividad/:id', (req, res) => {
 
         console.log('Datos de la actividad enviados al cliente:', results[0]);
         res.status(200).json(results[0]);
+    });
+});
+// Ruta para obtener una actividad específica por su ID
+app.get('/actividades/actividad/:id', (req, res) => {
+    const actividadId = req.params.id;
+
+    console.log('ID de la actividad recibida:', actividadId);
+
+    const query = `
+        SELECT Id_Actividad, Nombre, Descripcion, 
+               DATE_FORMAT(Fecha, '%Y-%m-%d') AS Fecha, 
+               DATE_FORMAT(Fecha_Entrega, '%Y-%m-%d') AS Fecha_Entrega
+        FROM actividad
+        WHERE Id_Actividad = ?
+    `;
+
+    db.query(query, [actividadId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener la actividad:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            console.warn('Actividad no encontrada con el ID:', actividadId);
+            return res.status(404).json({ message: 'Actividad no encontrada' });
+        }
+
+        console.log('Datos de la actividad enviados al cliente:', results[0]);
+        res.status(200).json(results[0]);
+    });
+});
+
+app.post('/subirArchivoActividad', upload.single('archivo'), (req, res) => {
+    const { usuarioId, actividadId } = req.body;
+    const archivo = req.file ? req.file.filename : null;
+
+    console.log('Datos recibidos:', { usuarioId, actividadId, archivo });
+
+    // Verifica si faltan datos
+    if (!usuarioId || !actividadId || !archivo) {
+        console.error('Faltan campos obligatorios:', { usuarioId, actividadId, archivo });
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    // Inserta los datos en la tabla `usuario_actividad`
+    const query = `
+        INSERT INTO usuario_actividad (Id_Usuario, Id_Actividad, Archivo)
+        VALUES (?, ?, ?)
+    `;
+
+    db.query(query, [usuarioId, actividadId, archivo], (err, result) => {
+        if (err) {
+            console.error('Error al insertar en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error al guardar el archivo en la base de datos.' });
+        }
+
+        console.log('Archivo subido exitosamente:', result);
+        res.status(201).json({ message: 'Archivo subido exitosamente.' });
+    });
+});
+
+
+
+// Ruta para obtener los archivos relacionados con una actividad
+app.get('/archivos/:actividadId', (req, res) => {
+    const actividadId = req.params.actividadId;
+
+    const query = `
+        SELECT ua.Archivo, u.Nombre AS UsuarioNombre, u.Apellido AS UsuarioApellido, ua.Fecha_Subida
+        FROM usuario_actividad ua
+        JOIN usuarios u ON ua.Id_Usuario = u.Id_usuario
+        WHERE ua.Id_Actividad = ?
+    `;
+
+    db.query(query, [actividadId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener los archivos de la actividad:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json({ archivos: results });
+    });
+});
+app.get('/perfil/:id', (req, res) => {
+    const userId = req.params.id;
+
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido, ImagenPerfil
+        FROM usuarios
+        WHERE Id_usuario = ?
+    `;
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener el usuario:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+
+        const user = results[0];
+
+        // Generar la ruta completa de la imagen
+        if (user.ImagenPerfil) {
+            user.ImagenPerfil = `http://localhost:3000/uploads/${user.ImagenPerfil}`;
+        } else {
+            user.ImagenPerfil = '../Img/default-profile.png'; // Ruta de la imagen por defecto
+        }
+
+        res.status(200).json(user);
+    });
+});
+// Ruta para eliminar un proyecto por su ID
+app.delete('/eliminar_proyecto/:id', (req, res) => {
+    const proyectoId = req.params.id;
+
+    console.log('ID del proyecto recibido para eliminar:', proyectoId); // Agregar log
+
+    if (!proyectoId || isNaN(proyectoId)) {
+        console.error('ID de proyecto inválido:', proyectoId); // Agregar log
+        return res.status(400).json({ message: 'ID de proyecto inválido.' });
+    }
+
+    const query = `
+        DELETE FROM proyecto
+        WHERE Id_Proyecto = ?
+    `;
+
+    db.query(query, [proyectoId], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar el proyecto en la base de datos:', err.message); // Agregar log
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.warn('No se encontró un proyecto con el ID especificado:', proyectoId); 
+            return res.status(404).json({ message: 'Proyecto no encontrado.' });
+        }
+
+        console.log('Proyecto eliminado exitosamente:', proyectoId);
+        res.status(200).json({ message: 'Proyecto eliminado exitosamente.' });
+    });
+});
+// Ruta para eliminar una actividad
+app.delete('/actividades_eliminar/:id', (req, res) => {
+    const actividadId = req.params.id;
+
+    console.log('ID de la actividad recibida para eliminar:', actividadId);
+
+    if (!actividadId || isNaN(actividadId)) {
+        console.error('ID de actividad inválido:', actividadId);
+        return res.status(400).json({ message: 'ID de actividad inválido.' });
+    }
+
+    const query = `
+        DELETE FROM actividad
+        WHERE Id_Actividad = ?
+    `;
+
+    db.query(query, [actividadId], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar la actividad en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.warn('No se encontró una actividad con el ID especificado:', actividadId);
+            return res.status(404).json({ message: 'Actividad no encontrada.' });
+        }
+
+        console.log('Actividad eliminada exitosamente:', actividadId);
+        res.status(200).json({ message: 'Actividad eliminada exitosamente.' });
+    });
+});
+// Ruta para obtener todos los ítems
+app.get('/items', (req, res) => {
+    const query = `
+        SELECT Id_Item, Nombre 
+        FROM item
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los ítems:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json({ items: results });
+    });
+});
+
+// Ruta para eliminar un ítem
+app.delete('/items_elimanar/:id', (req, res) => {
+    const itemId = req.params.id;
+
+    console.log('ID del ítem recibido para eliminar:', itemId);
+
+    if (!itemId || isNaN(itemId)) {
+        console.error('ID de ítem inválido:', itemId);
+        return res.status(400).json({ message: 'ID de ítem inválido.' });
+    }
+
+    const query = `
+        DELETE FROM item
+        WHERE Id_Item = ?
+    `;
+
+    db.query(query, [itemId], (err, result) => {
+        if (err) {
+            console.error('Error al eliminar el ítem en la base de datos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.warn('No se encontró un ítem con el ID especificado:', itemId);
+            return res.status(404).json({ message: 'Ítem no encontrado.' });
+        }
+
+        console.log('Ítem eliminado exitosamente:', itemId);
+        res.status(200).json({ message: 'Ítem eliminado exitosamente.' });
+    });
+});
+
+// Ruta para obtener un ítem por su ID
+app.get('/items/:id', (req, res) => {
+    const itemId = req.params.id;
+
+    const query = `
+        SELECT Id_Item, Nombre, Porcentaje 
+        FROM item 
+        WHERE Id_Item = ?
+    `;
+
+    db.query(query, [itemId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener el ítem:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Ítem no encontrado' });
+        }
+
+        res.status(200).json(results[0]);
+    });
+});
+
+// Ruta para actualizar un ítem por su ID
+app.put('/items/:id', (req, res) => {
+    const itemId = req.params.id;
+    const { nombre, porcentage } = req.body;
+
+    if (!nombre || !porcentage) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        UPDATE item 
+        SET Nombre = ?, Porcentaje = ? 
+        WHERE Id_Item = ?
+    `;
+
+    db.query(query, [nombre, porcentage, itemId], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el ítem:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Ítem no encontrado' });
+        }
+
+        res.status(200).json({ message: 'Ítem actualizado exitosamente' });
+    });
+});
+app.get('/alumnosActivos', (req, res) => {
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido 
+        FROM usuarios 
+        WHERE Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los alumnos activos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json(results);
+    });
+});
+app.get('/actividades', (req, res) => {
+    const query = `
+        SELECT Id_Actividad, Nombre 
+        FROM actividad;
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener las actividades:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json({ actividades: results });
+    });
+});
+app.post('/notas', (req, res) => {
+    const { nota, alumnoId, actividadId } = req.body;
+
+    console.log('Datos recibidos para asignar nota:', { nota, alumnoId, actividadId });
+
+    if (!nota || !alumnoId || !actividadId) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    }
+
+    const query = `
+        INSERT INTO notas_actividad (Nota, Id_Usuario, Id_Actividad)
+        VALUES (?, ?, ?);
+    `;
+
+    db.query(query, [nota, alumnoId, actividadId], (err, result) => {
+        if (err) {
+            console.error('Error al asignar la nota:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(201).json({ message: 'Nota asignada exitosamente' });
+    });
+});
+app.get('/alumnosActivos', (req, res) => {
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido 
+        FROM usuarios 
+        WHERE Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los alumnos activos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json(results);
+    });
+});
+app.get('/alumnosActivos', (req, res) => {
+    const query = `
+        SELECT Id_usuario, Nombre, Apellido 
+        FROM usuarios 
+        WHERE Rol = 'Alumno' AND Estado = 'Activo';
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los alumnos activos:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        res.status(200).json(results);
+    });
+});
+app.get('/notas/:alumnoId', (req, res) => {
+    const alumnoId = req.params.alumnoId;
+
+    console.log('ID del alumno recibido para obtener notas:', alumnoId);
+
+    const query = `
+        SELECT n.Id_Nota, n.Nota, i.Nombre AS NombreItem
+        FROM notas n
+        JOIN item i ON n.Id_Item = i.Id_Item
+        WHERE n.Id_Alumno = ?;
+    `;
+
+    db.query(query, [alumnoId], (err, results) => {
+        if (err) {
+            console.error('Error al obtener las notas:', err.message);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            console.warn('No se encontraron notas para el alumno con ID:', alumnoId);
+            return res.status(404).json({ message: 'No se encontraron notas para este alumno.' });
+        }
+
+        console.log('Notas enviadas al cliente:', results);
+        res.status(200).json(results);
     });
 });
 

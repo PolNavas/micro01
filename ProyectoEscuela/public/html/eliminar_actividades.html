@@ -22,10 +22,12 @@
                 </div>
             </div>
             <div class="main">
-                <div class="titulo"><h1>Eliminar Actividades</h1></div>
+                <div class="titulo">
+                    <h1>Eliminar Actividades</h1>
+                </div>
                 <div class="centro-form">
-                    <form>
-                        <select name="listaAlumnos" id="listaAlumnos">
+                    <form id="eliminarActividadForm">
+                        <select name="listaActividades" id="listaActividades">
                             <option value="">Seleccione una actividad</option>
                         </select>
                         <div class="boton">
@@ -33,47 +35,21 @@
                         </div>
                     </form>
                 </div>
-            </div>            
+            </div>                       
             <div class="user_info">
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
-                <div class="user"><a href="">
-                    <img src="../Img/profile.png" alt="perfil">
-                    <h4>Username</h4>
-                </a>
-                </div>
-                <div class="stats"><a href=""><div class="back"><img src="../Img/stats.png" alt=""></div></a></div>
-                <!-- Modal Stats -->
-                <div id="modal" class="modal">
-                    <div class="modal_contenido">
-                        <span class="cerrar">&times;</span>
-                        <h3>Estadísticas del Proyecto</h3>
-                        <p>GRAFICO</p>
-                        <canvas id="grafico"></canvas>
-                    </div>
-                </div>
-                <script>
-                    document.querySelector('.stats').addEventListener('click', (e) => {
-                        e.preventDefault(); // Prevenir comportamiento por defecto
-                        document.getElementById('modal').style.display = 'flex';
-                    });
-
-                    document.querySelector('.cerrar').addEventListener('click', () => {
-                        document.getElementById('modal').style.display = 'none';
-                    });
-
-                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
-                    document.getElementById('modal').addEventListener('click', (e) => {
-                        if (e.target === document.getElementById('modal')) {
-                            document.getElementById('modal').style.display = 'none';
-                        }
-                    });
-                </script>
-
-                
+                <div class="user">
+                    <a href="">
+                        <img src="../Img/profile.png" alt="perfil" style="border-radius: 200px;" height="50px" width="50px">
+                        <h2>Username</h4>
+                    </a>
+                </div> 
+                <div class="stats"><a href=""><div class="back"><img src="../Img/stats.png" alt=""></div></a></div>  
             </div>
         </div>
     </div>
-    <script src="../js/eliminar_alumnos.js"></script>
+    <script src="../js/eliminar_actividades.js"></script>
+    <script src="../js/cargarperfil.js"></script>
 </body>
 
 </html>

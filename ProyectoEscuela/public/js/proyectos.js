@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const actividadesContainer = document.getElementById('actividadesContainer');
     const tituloProyecto = document.querySelector('.titulo h1'); // Contenedor del nombre del proyecto
 
-    // Función para renderizar un ítem
+    
     function renderItem(item) {
         return `
             <li>
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="proyectos">
                 <div class="gestion-proyecto">
                     <div class="gestion_titulo-proyecto">
-                    <a href="actividades.html">Ver Actividad</a>
+                    <a href="actividades.html?id=${actividad.Id_Actividad}">Ver Actividad</a>
                         <h3>${actividad.NombreActividad}</h3>
                     </div>
                     <ul>${itemsHtml}</ul>

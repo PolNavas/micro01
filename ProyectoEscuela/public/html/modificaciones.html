@@ -43,6 +43,7 @@
                     <li><a href="crear_actividades.html">Crear</a></li>
                     <li><a href="modificar_actividades.html">Modificar</a></li>
                     <li><a href="eliminar_actividades.html">Eliminar</a></li>
+                    <li><a href="notas.html">Notas</a></li>
                 </ul>
 
                 <h4>Items</h4>
@@ -50,51 +51,24 @@
                     <li><a href="crear_items.html">Crear</a></li>
                     <li><a href="modificar_items.html">Modificar</a></li>
                     <li><a href="eliminar_items.html">Eliminar</a></li>
+                    <li><a href="notas_items.html">Notas</a></li>
                 </ul>
-                
-                <!-- <a href=""></a>
-                <a href=""><h4>Actividades</h4></a>
-                <a href=""><h4>Items</h4></a> -->
             </div>
             
             <div class="user_info">
                 <div class="setings"><a href="../index.html"><img src="../Img/cerrar-sesion.png" alt="ajustes"></a></div>
-                <div class="user"><a href="">
-                    <img src="../Img/profile.png" alt="perfil">
-                    <h4>Username</h4>
-                </a>
-                </div>
+                <div class="user">
+                    <a href="">
+                        <img src="../Img/profile.png" alt="perfil" style="border-radius: 200px;" height="50px" width="50px">
+                        <h2>Username</h4>
+                    </a>
+                </div> 
                 <div class="stats"><a href=""><div class="back"><img src="../Img/stats.png" alt=""></div></a></div>
-                <!-- Modal Stats -->
-                <div id="modal" class="modal">
-                    <div class="modal_contenido">
-                        <span class="cerrar">&times;</span>
-                        <h3>Estadísticas del Proyecto</h3>
-                        <p>GRAFICO</p>
-                        <canvas id="grafico"></canvas>
-                    </div>
-                </div>
-                <script>
-                    document.querySelector('.stats').addEventListener('click', (e) => {
-                        e.preventDefault(); // Prevenir comportamiento por defecto
-                        document.getElementById('modal').style.display = 'flex';
-                    });
-
-                    document.querySelector('.cerrar').addEventListener('click', () => {
-                        document.getElementById('modal').style.display = 'none';
-                    });
-
-                    // Opcional: Cerrar el modal si se hace clic fuera del contenido
-                    document.getElementById('modal').addEventListener('click', (e) => {
-                        if (e.target === document.getElementById('modal')) {
-                            document.getElementById('modal').style.display = 'none';
-                        }
-                    });
-                </script>
             </div>
         </div>
     </div>
-    <script src="../js/modificar_alumnos.js"></script>
+    <script src="../js/notas_items.js"></script>
+    <script src="../js/cargarperfil.js"></script>
 </body>
 
 </html>

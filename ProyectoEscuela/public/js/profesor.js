@@ -1,8 +1,6 @@
 const user = JSON.parse(localStorage.getItem('user'));
 
 if (user) {
-    // Mostrar los datos del usuario en la página
-    document.getElementById('username').textContent = user.Nombre;
 } else {
     // Si no hay datos del usuario, redirigir al login
     window.location.href = '../index.html';
